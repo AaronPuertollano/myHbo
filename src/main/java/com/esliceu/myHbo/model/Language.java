@@ -41,6 +41,4 @@ public class Language {
     public void setName(String name) {
         this.name = name;
     }
-
-    // Getters y Setters
 }
