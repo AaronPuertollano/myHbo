@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Language Roles</title>
+</head>
+<body>
+
+<h2>Añadir Nuevo Rol</h2>
+
+<form action="/languageRole" method="post">
+    <label>ID:
+        <input type="number" name="id" required>
+    </label>
+    <br>
+    <label>Rol de Idioma:
+        <input type="text" name="languageR" required>
+    </label>
+    <br>
+    <button type="submit">Añadir Rol</button>
+</form>
+
+<hr>
+
+<h1>Roles de Idioma</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="lr : ${languageRoles}">
+        <td th:text="${lr.id}"></td>
+        <td th:text="${lr.languageRole}"></td>
+        <td>
+            <form action="/languageRole/delete" method="post" style="display:inline;">
+                <input type="hidden" name="id" th:value="${lr.id}">
+                <button type="submit"
+                        onclick="return confirm('¿Seguro que quieres borrar este rol?')">
+                    Borrar
+                </button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

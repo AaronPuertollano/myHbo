@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Languages</title>
+</head>
+<body>
+
+<h2>Add lenguage</h2>
+<form action="/language" method="post">
+    <label>Nombre:
+        <input type="text" name="languageName" required>
+    </label>
+    <br>
+    <label>Código ISO:
+        <input type="text" name="languageCode" required>
+    </label>
+    <br>
+    <button type="submit">Add Lenguage</button>
+</form>
+
+<h1>Lista de Países</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c : ${language}">
+        <td th:text="${c.id}"></td>
+        <td th:text="${c.code}"></td>
+        <td th:text="${c.name}"></td>
+        <td>
+            <form action="/language/delete" method="post" style="display:inline;">
+                <input type="hidden" name="id" th:value="${c.id}">
+                <button type="submit" onclick="return confirm('¿Seguro que quieres borrar este idioma?')">
+                    Borrar
+                </button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

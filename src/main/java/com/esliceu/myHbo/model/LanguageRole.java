@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class LanguageRole {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
     private Integer id;
 

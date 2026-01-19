@@ -1,14 +1,12 @@
 package com.esliceu.myHbo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "language")
 public class Language {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "language_id")
     private Integer id;
 
@@ -17,6 +15,8 @@ public class Language {
 
     @Column(name = "language_name")
     private String name;
+
+
 
     public Integer getId() {
         return id;

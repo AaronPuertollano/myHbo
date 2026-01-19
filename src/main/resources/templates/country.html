@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Countries</title>
+</head>
+<body>
+
+<h2>Añadir Nuevo País</h2>
+<form action="/country" method="post">
+    <label>Nombre:
+        <input type="text" name="countryName" required>
+    </label>
+    <br>
+    <label>Código ISO:
+        <input type="text" name="isoCode" required>
+    </label>
+    <br>
+    <button type="submit">Añadir País</button>
+</form>
+
+<h1>Lista de Países</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c : ${country}">
+        <td th:text="${c.id}"></td>
+        <td th:text="${c.isoCode}"></td>
+        <td th:text="${c.countryName}"></td>
+        <td>
+            <form action="/country/delete" method="post" style="display:inline;">
+                <input type="hidden" name="id" th:value="${c.id}">
+                <button type="submit" onclick="return confirm('¿Seguro que quieres borrar este país?')">
+                    Borrar
+                </button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
