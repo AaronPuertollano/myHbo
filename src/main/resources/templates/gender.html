@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Generos</title>
+</head>
+<body>
+
+<h2>Añadir Nuevo Genero "Gender"</h2>
+
+<div th:if="${success}" style="color: green; padding: 10px; border: 1px solid green;">
+    <span th:text="${success}"></span>
+</div>
+<div th:if="${error}" style="color: red; padding: 10px; border: 1px solid red;">
+    <span th:text="${error}"></span>
+</div>
+
+<h2>Añadir Nuevo Género</h2>
+<form action="/gender" method="post">
+    <label>ID:
+        <input type="number" name="id" required>
+    </label>
+    <br>
+    <label>Nombre del género:
+        <input type="text" name="genderN" required>
+    </label>
+    <br>
+    <button type="submit">Añadir Género</button>
+</form>
+
+<hr>
+
+<h1>Lista de Generos "Gender"</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="g : ${genders}">
+        <td th:text="${g.id}"></td>
+        <td th:text="${g.gender}"></td>
+        <td>
+            <form action="/gender/delete" method="post" style="display:inline;">
+                <input type="hidden" name="id" th:value="${g.id}">
+                <button type="submit"
+                        onclick="return confirm('¿Seguro que quieres borrar este genero?')">
+                    Borrar
+                </button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
