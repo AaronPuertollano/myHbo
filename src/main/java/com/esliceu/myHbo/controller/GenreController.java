@@ -30,23 +30,19 @@ public class GenreController {
     }
 
     @PostMapping("/genre")
-    public String postGenre(@RequestParam Integer id,
-                            @RequestParam String genreName,
+    public String postGenre(@RequestParam String genreName,
                             RedirectAttributes redirectAttributes) {
 
-        if (genreService.findById(id).isPresent()) {
-            redirectAttributes.addFlashAttribute("error",
-                    "El ID " + id + " ya está en uso. Por favor, elige otro.");
-            return "redirect:/genre";
-        }
-
         Genre genre = new Genre();
-        genre.setId(id);
+
+        Integer nextId = genreService.getNextId();
+        genre.setId(nextId);
         genre.setGenreName(genreName);
 
         genreService.save(genre);
+
         redirectAttributes.addFlashAttribute("success",
-                "Género añadido correctamente");
+                "Género añadido correctamente con ID: " + genre.getId());
 
         return "redirect:/genre";
     }

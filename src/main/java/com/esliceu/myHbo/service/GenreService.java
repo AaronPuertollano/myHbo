@@ -30,4 +30,9 @@ public class GenreService {
     public void delete(Integer id) {
         genreRepo.deleteById(id);
     }
+
+    public Integer getNextId() {
+        Integer maxId = genreRepo.findMaxId();
+        return (maxId == null) ? 1 : maxId + 1;
+    }
 }
