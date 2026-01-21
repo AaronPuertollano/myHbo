@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Keywords</title>
+</head>
+<body>
+
+<h1>Gestión de Empresas</h1>
+
+<div th:if="${success}" style="color: green; padding: 10px; margin: 10px 0; border: 1px solid green; background: #e8f5e9;">
+    <span th:text="${success}"></span>
+</div>
+<div th:if="${error}" style="color: red; padding: 10px; margin: 10px 0; border: 1px solid red; background: #ffebee;">
+    <span th:text="${error}"></span>
+</div>
+
+<h2>Añadir Nueva empresa</h2>
+<form action="/productionCompany" method="post">
+    <label>Nombre del keyword:
+        <input type="text" name="companyName" required>
+    </label>
+    <button type="submit">Añadir Keyword</button>
+</form>
+
+<hr>
+
+<h2>Lista de Empresas</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="g : ${productionCompany}">
+        <td th:text="${g.id}"></td>
+        <td th:text="${g.companyName}"></td>
+        <td>
+            <form action="/productionCompany/delete" method="post" style="display:inline;">
+                <input type="hidden" name="id" th:value="${g.id}">
+                <button type="submit"
+                        onclick="return confirm('¿Seguro que quieres borrar esta empresa?')">
+                    Borrar
+                </button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

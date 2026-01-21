@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class ProductionCompany {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "company_id")
     private Integer id;
 

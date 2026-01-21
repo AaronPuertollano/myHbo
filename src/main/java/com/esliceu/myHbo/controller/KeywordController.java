@@ -49,7 +49,6 @@ public class KeywordController {
     public String deleteKeyword(@RequestParam Integer id,
                                 RedirectAttributes redirectAttributes) {
         try {
-            // Verificar que existe antes de borrar
             if (keywordService.findById(id).isPresent()) {
                 keywordService.delete(id);
                 redirectAttributes.addFlashAttribute("success",

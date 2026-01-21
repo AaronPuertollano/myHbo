@@ -30,4 +30,10 @@ public class ProductionCompanyService {
     public void delete(Integer id) {
         productionCompanyRepo.deleteById(id);
     }
+
+    public Integer getNextId() {
+        Integer maxId = productionCompanyRepo.findMaxId();
+        return (maxId == null) ? 1 : maxId + 1;
+    }
+
 }
