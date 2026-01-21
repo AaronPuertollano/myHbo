@@ -30,4 +30,9 @@ public class LanguageRoleService {
     public void delete(Integer id) {
         languageRoleRepo.deleteById(id);
     }
+
+    public Integer getNextId() {
+        Integer maxId = languageRoleRepo.findMaxId();
+        return (maxId == null) ? 1 : maxId + 1;
+    }
 }

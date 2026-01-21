@@ -30,4 +30,9 @@ public class GenderService {
     public void delete(Integer id) {
         genderRepo.deleteById(id);
     }
+
+    public Integer getNextId() {
+        Integer maxId = genderRepo.findMaxId();
+        return (maxId == null) ? 1 : maxId + 1;
+    }
 }

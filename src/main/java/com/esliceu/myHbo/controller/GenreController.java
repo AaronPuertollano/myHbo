@@ -71,23 +71,17 @@ public class GenreController {
     }
 
     @PostMapping("/gender")
-    public String postGender(@RequestParam Integer id,
-                            @RequestParam String genderN,
+    public String postGender(@RequestParam String genderN,
                             RedirectAttributes redirectAttributes) {
 
-        if (genderService.findById(id).isPresent()) {
-            redirectAttributes.addFlashAttribute("error",
-                    "El ID " + id + " ya está en uso. Por favor, elige otro.");
-            return "redirect:/gender";
-        }
-
         Gender gender = new Gender();
-        gender.setId(id);
+        gender.setId(genderService.getNextId());
         gender.setGender(genderN);
 
         genderService.save(gender);
+
         redirectAttributes.addFlashAttribute("success",
-                "Género añadido correctamente");
+                "Género añadido correctamente con ID: " + gender.getId());
 
         return "redirect:/gender";
     }

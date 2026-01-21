@@ -7,11 +7,15 @@
 
 <h2>Añadir Nuevo Rol</h2>
 
+<div th:if="${success}" style="color: green; padding: 10px; border: 1px solid green;">
+    <span th:text="${success}"></span>
+</div>
+<div th:if="${error}" style="color: red; padding: 10px; border: 1px solid red;">
+    <span th:text="${error}"></span>
+</div>
+
 <form action="/languageRole" method="post">
-    <label>ID:
-        <input type="number" name="id" required>
-    </label>
-    <br>
+
     <label>Rol de Idioma:
         <input type="text" name="languageR" required>
     </label>

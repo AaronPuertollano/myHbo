@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class Keyword {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "keyword_id")
     private Integer id;
 

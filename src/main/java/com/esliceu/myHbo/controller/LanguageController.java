@@ -65,18 +65,16 @@ public class LanguageController {
     }
 
     @PostMapping("/languageRole")
-    public String postLanguageRole(@RequestParam Integer id,
-                                   @RequestParam String languageR) {
-
-        if (languageRoleService.findById(id).isPresent()) {
-            return "redirect:/languageRole";
-        }
+    public String postLanguageRole( @RequestParam String languageR, RedirectAttributes redirectAttributes) {
 
         LanguageRole languageRole = new LanguageRole();
-        languageRole.setId(id);
+        languageRole.setId(languageRoleService.getNextId());
         languageRole.setLanguageRole(languageR);
 
         languageRoleService.save(languageRole);
+
+        redirectAttributes.addFlashAttribute("success",
+                "Género añadido correctamente con ID: " + languageRole.getId());
 
         return "redirect:/languageRole";
     }

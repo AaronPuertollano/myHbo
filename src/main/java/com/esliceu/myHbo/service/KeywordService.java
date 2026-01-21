@@ -30,4 +30,8 @@ public class KeywordService {
     public void delete(Integer id) {
         keywordRepo.deleteById(id);
     }
+
+    public Integer getNextId() {
+        return keywordRepo.getNextId();
+    }
 }
