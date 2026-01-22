@@ -30,4 +30,8 @@ public class PersonService {
     public void delete(Integer id) {
         personRepo.deleteById(id);
     }
+
+    public Integer getNextId() {
+        return personRepo.getNextId();
+    }
 }
