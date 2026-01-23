@@ -1,9 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Keywords</title>
+    <title>Empresas</title>
 </head>
 <body>
+
+<script>
+    function toggleEdit(id) {
+        document.querySelectorAll('[id^="edit-row-"]').forEach(row => {
+            if (row.id !== 'edit-row-' + id) {
+                row.style.display = 'none';
+            }
+        });
+
+        const row = document.getElementById('edit-row-' + id);
+        row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+    }
+</script>
 
 <h1>Gestión de Empresas</h1>
 
@@ -34,20 +47,49 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="g : ${productionCompany}">
-        <td th:text="${g.id}"></td>
-        <td th:text="${g.companyName}"></td>
-        <td>
-            <form action="/productionCompany/delete" method="post" style="display:inline;">
-                <input type="hidden" name="id" th:value="${g.id}">
-                <button type="submit"
-                        onclick="return confirm('¿Seguro que quieres borrar esta empresa?')">
-                    Borrar
+    <th:block th:each="g : ${productionCompany}">
+
+        <tr>
+            <td th:text="${g.id}"></td>
+            <td th:text="${g.companyName}"></td>
+            <td>
+                <button type="button"
+                        th:onclick="'toggleEdit(' + ${g.id} + ')'">
+                    Editar
                 </button>
-            </form>
-        </td>
-    </tr>
+
+                <form action="/productionCompany/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${g.id}">
+                    <button type="submit"
+                            onclick="return confirm('¿Seguro que quieres borrar esta empresa?')">
+                        Borrar
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+        <tr th:id="'edit-row-' + ${g.id}" style="display:none; background:#f9f9f9;">
+            <td colspan="3">
+                <form action="/productionCompany/update" method="post">
+
+                    <input type="hidden" name="id" th:value="${g.id}">
+
+                    Nombre del keyword:
+                    <input type="text" name="companyName"
+                           th:value="${g.companyName}" required>
+
+                    <button type="submit">Guardar</button>
+                    <button type="button"
+                            th:onclick="'toggleEdit(' + ${g.id} + ')'">
+                        Cancelar
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+    </th:block>
     </tbody>
 </table>
+
 </body>
 </html>

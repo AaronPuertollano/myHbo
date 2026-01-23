@@ -76,4 +76,12 @@ public class PersonController {
         return personService.findById(id);
     }
 
+    @PostMapping("/person/update")
+    public String updatePerson(@RequestParam Integer id,
+                                @RequestParam String personName) {
+
+        personService.update(id, personName);
+        return "redirect:/person";
+    }
+
 }

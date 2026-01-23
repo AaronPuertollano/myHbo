@@ -5,18 +5,34 @@
 </head>
 <body>
 
+<script>
+    function toggleEdit(id) {
+        document.querySelectorAll('[id^="edit-row-"]').forEach(row => {
+            if (row.id !== 'edit-row-' + id) {
+                row.style.display = 'none';
+            }
+        });
+
+        const row = document.getElementById('edit-row-' + id);
+        row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+    }
+</script>
+
 <h1>Gestión de departamentos</h1>
 
-<div th:if="${success}" style="color: green; padding: 10px; margin: 10px 0; border: 1px solid green; background: #e8f5e9;">
+<div th:if="${success}"
+     style="color: green; padding: 10px; margin: 10px 0; border: 1px solid green; background: #e8f5e9;">
     <span th:text="${success}"></span>
 </div>
-<div th:if="${error}" style="color: red; padding: 10px; margin: 10px 0; border: 1px solid red; background: #ffebee;">
+
+<div th:if="${error}"
+     style="color: red; padding: 10px; margin: 10px 0; border: 1px solid red; background: #ffebee;">
     <span th:text="${error}"></span>
 </div>
 
-<h2>Añadir Nuevo Keyword</h2>
+<h2>Añadir Nuevo Departamento</h2>
 <form action="/department" method="post">
-    <label>Nombre del departemento:
+    <label>Nombre del departamento:
         <input type="text" name="departmentName" required>
     </label>
     <button type="submit">Añadir departamento</button>
@@ -24,7 +40,8 @@
 
 <hr>
 
-<h2>Lista de departementos</h2>
+<h2>Lista de departamentos</h2>
+
 <table>
     <thead>
     <tr>
@@ -33,21 +50,53 @@
         <th>Acciones</th>
     </tr>
     </thead>
+
     <tbody>
-    <tr th:each="g : ${department}">
-        <td th:text="${g.id}"></td>
-        <td th:text="${g.departmentName}"></td>
-        <td>
-            <form action="/department/delete" method="post" style="display:inline;">
-                <input type="hidden" name="id" th:value="${g.id}">
-                <button type="submit"
-                        onclick="return confirm('¿Seguro que quieres borrar este keyword?')">
-                    Borrar
+    <th:block th:each="g : ${department}">
+
+        <tr>
+            <td th:text="${g.id}"></td>
+            <td th:text="${g.departmentName}"></td>
+            <td>
+                <button type="button"
+                        th:onclick="'toggleEdit(' + ${g.id} + ')'">
+                    Editar
                 </button>
-            </form>
-        </td>
-    </tr>
+
+                <form action="/department/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${g.id}">
+                    <button type="submit"
+                            onclick="return confirm('¿Seguro que quieres borrar este departamento?')">
+                        Borrar
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+        <tr th:id="'edit-row-' + ${g.id}" style="display:none; background:#f9f9f9;">
+            <td colspan="3">
+                <form action="/department/update" method="post">
+
+                    <input type="hidden" name="id" th:value="${g.id}">
+
+                    Nombre del departamento:
+                    <input type="text"
+                           name="departmentName"
+                           th:value="${g.departmentName}"
+                           required>
+
+                    <button type="submit">Guardar</button>
+                    <button type="button"
+                            th:onclick="'toggleEdit(' + ${g.id} + ')'">
+                        Cancelar
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+    </th:block>
     </tbody>
 </table>
+
 </body>
 </html>

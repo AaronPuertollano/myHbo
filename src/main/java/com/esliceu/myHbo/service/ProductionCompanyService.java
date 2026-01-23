@@ -36,4 +36,13 @@ public class ProductionCompanyService {
         return (maxId == null) ? 1 : maxId + 1;
     }
 
+    public ProductionCompany update(Integer id, String companyName) {
+
+        ProductionCompany company = productionCompanyRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Company not found"));
+
+        company.setCompanyName(companyName);
+        return productionCompanyRepo.save(company);
+    }
+
 }

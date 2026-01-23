@@ -64,4 +64,12 @@ public class DepartmentController {
         }
         return "redirect:/department";
     }
+
+    @PostMapping("/department/update")
+    public String updateDepartment(@RequestParam Integer id,
+                                @RequestParam String departmentName) {
+
+        departmentService.update(id, departmentName);
+        return "redirect:/department";
+    }
 }

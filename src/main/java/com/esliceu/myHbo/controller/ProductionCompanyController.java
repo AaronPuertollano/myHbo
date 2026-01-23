@@ -60,6 +60,14 @@ public class ProductionCompanyController {
             redirectAttributes.addFlashAttribute("error",
                     "No se puede borrar esta empresa porque está siendo usado en otra tabla");
         }
-        return "redirect:/keyword";
+        return "redirect:/productionCompany";
+    }
+
+    @PostMapping("/productionCompany/update")
+    public String updateProductionCompany(@RequestParam Integer id,
+                               @RequestParam String companyName) {
+
+        productionCompanyService.update(id, companyName);
+        return "redirect:/productionCompany";
     }
 }

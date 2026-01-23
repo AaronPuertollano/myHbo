@@ -5,6 +5,19 @@
 </head>
 <body>
 
+<script>
+    function toggleEdit(id) {
+        document.querySelectorAll('[id^="edit-row-"]').forEach(row => {
+            if (row.id !== 'edit-row-' + id) {
+                row.style.display = 'none';
+            }
+        });
+
+        const row = document.getElementById('edit-row-' + id);
+        row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+    }
+</script>
+
 <h1>Gestión de Keywords</h1>
 
 <div th:if="${success}" style="color: green; padding: 10px; margin: 10px 0; border: 1px solid green; background: #e8f5e9;">
@@ -34,20 +47,42 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="g : ${keywords}">
-        <td th:text="${g.id}"></td>
-        <td th:text="${g.keywordName}"></td>
-        <td>
-            <form action="/keyword/delete" method="post" style="display:inline;">
-                <input type="hidden" name="id" th:value="${g.id}">
-                <button type="submit"
-                        onclick="return confirm('¿Seguro que quieres borrar este keyword?')">
-                    Borrar
-                </button>
-            </form>
-        </td>
-    </tr>
+    <th:block th:each="g : ${keywords}">
+
+        <tr>
+            <td th:text="${g.id}"></td>
+            <td th:text="${g.keywordName}"></td>
+            <td>
+                <button type="button" th:onclick="'toggleEdit(' + ${g.id} + ')'">Editar</button>
+
+                <form action="/keyword/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${g.id}">
+                    <button type="submit"
+                            onclick="return confirm('¿Seguro que quieres borrar este keyword?')">
+                        Borrar
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+        <tr th:id="'edit-row-' + ${g.id}" style="display:none;">
+            <td colspan="3">
+                <form action="/keyword/update" method="post">
+
+                    <input type="hidden" name="id" th:value="${g.id}">
+
+                    Nombre del keyword:
+                    <input type="text" name="keywordName" th:value="${g.keywordName}" required>
+
+                    <button type="submit">Guardar</button>
+                    <button type="button" th:onclick="'toggleEdit(' + ${g.id} + ')'">Cancelar</button>
+                </form>
+            </td>
+        </tr>
+
+    </th:block>
     </tbody>
 </table>
+
 </body>
 </html>

@@ -5,6 +5,19 @@
 </head>
 <body>
 
+<script>
+    function toggleEdit(id) {
+        document.querySelectorAll('[id^="edit-row-"]').forEach(row => {
+            if (row.id !== 'edit-row-' + id) {
+                row.style.display = 'none';
+            }
+        });
+
+        const row = document.getElementById('edit-row-' + id);
+        row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+    }
+</script>
+
 <h2>Añadir Nuevo Rol</h2>
 
 <div th:if="${success}" style="color: green; padding: 10px; border: 1px solid green;">
@@ -15,7 +28,6 @@
 </div>
 
 <form action="/languageRole" method="post">
-
     <label>Rol de Idioma:
         <input type="text" name="languageR" required>
     </label>
@@ -36,20 +48,49 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="lr : ${languageRoles}">
-        <td th:text="${lr.id}"></td>
-        <td th:text="${lr.languageRole}"></td>
-        <td>
-            <form action="/languageRole/delete" method="post" style="display:inline;">
-                <input type="hidden" name="id" th:value="${lr.id}">
-                <button type="submit"
-                        onclick="return confirm('¿Seguro que quieres borrar este rol?')">
-                    Borrar
+    <th:block th:each="lr : ${languageRoles}">
+
+        <tr>
+            <td th:text="${lr.id}"></td>
+            <td th:text="${lr.languageRole}"></td>
+            <td>
+                <button type="button"
+                        th:onclick="'toggleEdit(' + ${lr.id} + ')'">
+                    Editar
                 </button>
-            </form>
-        </td>
-    </tr>
+
+                <form action="/languageRole/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${lr.id}">
+                    <button type="submit"
+                            onclick="return confirm('¿Seguro que quieres borrar este rol?')">
+                        Borrar
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+        <tr th:id="'edit-row-' + ${lr.id}" style="display:none; background:#f9f9f9;">
+            <td colspan="3">
+                <form action="/languageRole/update" method="post">
+
+                    <input type="hidden" name="id" th:value="${lr.id}">
+
+                    Rol de Idioma:
+                    <input type="text" name="languageRole"
+                           th:value="${lr.languageRole}" required>
+
+                    <button type="submit">Guardar</button>
+                    <button type="button"
+                            th:onclick="'toggleEdit(' + ${lr.id} + ')'">
+                        Cancelar
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+    </th:block>
     </tbody>
 </table>
+
 </body>
 </html>

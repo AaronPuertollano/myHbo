@@ -59,6 +59,14 @@ public class GenreController {
         return "redirect:/genre";
     }
 
+    @PostMapping("/genre/update")
+    public String updateGenre(@RequestParam Integer id,
+                               @RequestParam String genreName) {
+
+        genreService.update(id, genreName);
+        return "redirect:/genre";
+    }
+
     @Autowired
     GenderService genderService;
 
@@ -95,6 +103,14 @@ public class GenreController {
             redirectAttributes.addFlashAttribute("error",
                     "No se puede borrar este genero porque está siendo usado en películas");
         }
+        return "redirect:/gender";
+    }
+
+    @PostMapping("/gender/update")
+    public String updateGender(@RequestParam Integer id,
+                                   @RequestParam String genderName) {
+
+        genderService.update(id, genderName);
         return "redirect:/gender";
     }
 

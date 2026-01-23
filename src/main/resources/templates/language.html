@@ -5,44 +5,85 @@
 </head>
 <body>
 
-<h2>Add lenguage</h2>
+<script>
+    function toggleEdit(id) {
+        document.querySelectorAll('[id^="edit-row-"]').forEach(row => {
+            if (row.id !== 'edit-row-' + id) {
+                row.style.display = 'none';
+            }
+        });
+
+        const row = document.getElementById('edit-row-' + id);
+        row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+    }
+</script>
+
+<h2>Add Language</h2>
 <form action="/language" method="post">
-    <label>Nombre:
+    <label>Name:
         <input type="text" name="languageName" required>
     </label>
     <br>
-    <label>Código ISO:
+    <label>ISO Code:
         <input type="text" name="languageCode" required>
     </label>
     <br>
-    <button type="submit">Add Lenguage</button>
+    <button type="submit">Add Language</button>
 </form>
 
-<h1>Lista de Países</h1>
+<h1>List of Languages</h1>
 
 <table>
     <thead>
     <tr>
         <th>ID</th>
-        <th>Código</th>
-        <th>Nombre</th>
-        <th>Acciones</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="c : ${language}">
-        <td th:text="${c.id}"></td>
-        <td th:text="${c.code}"></td>
-        <td th:text="${c.name}"></td>
-        <td>
-            <form action="/language/delete" method="post" style="display:inline;">
-                <input type="hidden" name="id" th:value="${c.id}">
-                <button type="submit" onclick="return confirm('¿Seguro que quieres borrar este idioma?')">
-                    Borrar
+    <th:block th:each="c : ${language}">
+
+        <tr>
+            <td th:text="${c.id}"></td>
+            <td th:text="${c.code}"></td>
+            <td th:text="${c.name}"></td>
+            <td>
+                <button type="button" th:onclick="'toggleEdit(' + ${c.id} + ')'">
+                    Edit
                 </button>
-            </form>
-        </td>
-    </tr>
+
+                <form action="/language/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${c.id}">
+                    <button type="submit"
+                            onclick="return confirm('¿Seguro que quieres borrar este idioma?')">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+        <tr th:id="'edit-row-' + ${c.id}" style="display:none;">
+            <td colspan="4">
+                <form action="/language/update" method="post">
+                    <input type="hidden" name="id" th:value="${c.id}">
+
+                    ISO Code:
+                    <input type="text" name="languageCode" th:value="${c.code}" required>
+
+                    Name:
+                    <input type="text" name="languageName" th:value="${c.name}" required>
+
+                    <button type="submit">Save</button>
+                    <button type="button" th:onclick="'toggleEdit(' + ${c.id} + ')'">
+                        Cancel
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+    </th:block>
     </tbody>
 </table>
 

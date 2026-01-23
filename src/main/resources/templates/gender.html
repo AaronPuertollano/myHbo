@@ -1,20 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Generos</title>
+    <title>Géneros</title>
 </head>
 <body>
 
-<h2>Añadir Nuevo Genero "Gender"</h2>
+<script>
+    function toggleEdit(id) {
+        document.querySelectorAll('[id^="edit-row-"]').forEach(row => {
+            if (row.id !== 'edit-row-' + id) {
+                row.style.display = 'none';
+            }
+        });
+
+        const row = document.getElementById('edit-row-' + id);
+        row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+    }
+</script>
+
+<h2>Añadir Nuevo Género</h2>
 
 <div th:if="${success}" style="color: green; padding: 10px; border: 1px solid green;">
     <span th:text="${success}"></span>
 </div>
+
 <div th:if="${error}" style="color: red; padding: 10px; border: 1px solid red;">
     <span th:text="${error}"></span>
 </div>
 
-<h2>Añadir Nuevo Género</h2>
 <form action="/gender" method="post">
     <label>Nombre del género:
         <input type="text" name="genderN" required>
@@ -25,7 +38,7 @@
 
 <hr>
 
-<h1>Lista de Generos "Gender"</h1>
+<h1>Lista de Géneros</h1>
 
 <table>
     <thead>
@@ -35,21 +48,51 @@
         <th>Acciones</th>
     </tr>
     </thead>
+
     <tbody>
-    <tr th:each="g : ${genders}">
-        <td th:text="${g.id}"></td>
-        <td th:text="${g.gender}"></td>
-        <td>
-            <form action="/gender/delete" method="post" style="display:inline;">
-                <input type="hidden" name="id" th:value="${g.id}">
-                <button type="submit"
-                        onclick="return confirm('¿Seguro que quieres borrar este genero?')">
-                    Borrar
+    <th:block th:each="g : ${genders}">
+        <tr>
+            <td th:text="${g.id}"></td>
+            <td th:text="${g.gender}"></td>
+            <td>
+                <button type="button"
+                        th:onclick="'toggleEdit(' + ${g.id} + ')'">
+                    Editar
                 </button>
-            </form>
-        </td>
-    </tr>
+
+                <form action="/gender/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${g.id}">
+                    <button type="submit"
+                            onclick="return confirm('¿Seguro que quieres borrar este género?')">
+                        Borrar
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+        <tr th:id="'edit-row-' + ${g.id}"
+            style="display:none; background:#f5f5f5;">
+            <td colspan="3">
+                <form action="/gender/update" method="post">
+
+                    <input type="hidden" name="id" th:value="${g.id}">
+
+                    Nombre:
+                    <input type="text" name="genderName"
+                           th:value="${g.gender}" required>
+
+                    <button type="submit">Guardar</button>
+                    <button type="button"
+                            th:onclick="'toggleEdit(' + ${g.id} + ')'">
+                        Cancelar
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+    </th:block>
     </tbody>
 </table>
+
 </body>
 </html>

@@ -64,4 +64,12 @@ public class KeywordController {
         return "redirect:/keyword";
     }
 
+    @PostMapping("/keyword/update")
+    public String updateKeyword(@RequestParam Integer id,
+                              @RequestParam String keywordName) {
+
+        keywordService.update(id, keywordName);
+        return "redirect:/keyword";
+    }
+
 }

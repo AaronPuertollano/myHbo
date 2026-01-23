@@ -1,5 +1,6 @@
 package com.esliceu.myHbo.service;
 
+import com.esliceu.myHbo.model.Country;
 import com.esliceu.myHbo.model.Language;
 import com.esliceu.myHbo.model.Person;
 import com.esliceu.myHbo.repo.PersonRepo;
@@ -23,8 +24,8 @@ public class PersonService {
         return personRepo.findById(id);
     }
 
-    public Person save(Person language) {
-        return personRepo.save(language);
+    public Person save(Person person) {
+        return personRepo.save(person);
     }
 
     public void delete(Integer id) {
@@ -37,5 +38,14 @@ public class PersonService {
 
     public List<Person> findByName(String term) {
         return personRepo.findByPersonNameContainingIgnoreCase(term);
+    }
+
+    public Person update(Integer id, String personName) {
+
+        Person person = personRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Person not found"));
+
+        person.setPersonName(personName);
+        return personRepo.save(person);
     }
 }

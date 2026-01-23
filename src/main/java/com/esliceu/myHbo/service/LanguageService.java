@@ -1,5 +1,6 @@
 package com.esliceu.myHbo.service;
 
+import com.esliceu.myHbo.model.Country;
 import com.esliceu.myHbo.model.Keyword;
 import com.esliceu.myHbo.model.Language;
 import com.esliceu.myHbo.repo.LanguageRepo;
@@ -29,5 +30,16 @@ public class LanguageService {
 
     public void delete(Integer id) {
         languageRepo.deleteById(id);
+    }
+
+    public Language update(Integer id, String languageCode, String languageName) {
+
+        Language language = languageRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Country not found"));
+
+        language.setCode(languageCode);
+        language.setName(languageName);
+
+        return languageRepo.save(language);
     }
 }

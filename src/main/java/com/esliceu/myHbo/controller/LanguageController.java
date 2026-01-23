@@ -54,6 +54,14 @@ public class LanguageController {
         return "redirect:/language";
     }
 
+    @PostMapping("/language/update")
+    public String updateKeyword(@RequestParam Integer id,
+                                @RequestParam String languageCode, @RequestParam String languageName) {
+
+        languageService.update(id, languageCode, languageName);
+        return "redirect:/language";
+    }
+
     @Autowired
     LanguageRoleService languageRoleService;
 
@@ -92,4 +100,13 @@ public class LanguageController {
         }
         return "redirect:/languageRole";
     }
+
+    @PostMapping("/languageRole/update")
+    public String updateLanguageRole(@RequestParam Integer id,
+                                @RequestParam String languageRole) {
+
+        languageRoleService.update(id, languageRole);
+        return "redirect:/languageRole";
+    }
+
 }
