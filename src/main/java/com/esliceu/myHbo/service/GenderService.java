@@ -1,5 +1,6 @@
 package com.esliceu.myHbo.service;
 
+import com.esliceu.myHbo.model.Country;
 import com.esliceu.myHbo.model.Department;
 import com.esliceu.myHbo.model.Gender;
 import com.esliceu.myHbo.repo.GenderRepo;
@@ -34,5 +35,14 @@ public class GenderService {
     public Integer getNextId() {
         Integer maxId = genderRepo.findMaxId();
         return (maxId == null) ? 1 : maxId + 1;
+    }
+
+    public Gender update(Integer id, String genderName) {
+
+        Gender gender = genderRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Gender not found"));
+        gender.setGender(genderName);
+
+        return genderRepo.save(gender);
     }
 }

@@ -34,4 +34,8 @@ public class PersonService {
     public Integer getNextId() {
         return personRepo.getNextId();
     }
+
+    public List<Person> findByName(String term) {
+        return personRepo.findByPersonNameContainingIgnoreCase(term);
+    }
 }

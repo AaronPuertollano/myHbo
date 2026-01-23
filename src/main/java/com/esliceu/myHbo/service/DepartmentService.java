@@ -2,6 +2,7 @@ package com.esliceu.myHbo.service;
 
 import com.esliceu.myHbo.model.Country;
 import com.esliceu.myHbo.model.Department;
+import com.esliceu.myHbo.model.Genre;
 import com.esliceu.myHbo.repo.DepartmentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,4 +31,14 @@ public class DepartmentService {
     public void delete(Integer id) {
         departmentRepo.deleteById(id);
     }
+
+    public Department update(Integer id, String departmentName) {
+
+        Department department = departmentRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Department not found"));
+        department.setDepartmentName(departmentName);
+
+        return departmentRepo.save(department);
+    }
+
 }

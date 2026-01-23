@@ -43,4 +43,13 @@ public class CountryController {
         countryService.delete(id);
         return "redirect:/country";
     }
+
+    @PostMapping("/country/update")
+    public String updateCountry(@RequestParam Integer id,
+                                @RequestParam String countryName,
+                                @RequestParam String isoCode) {
+
+        countryService.update(id, countryName, isoCode);
+        return "redirect:/country";
+    }
 }

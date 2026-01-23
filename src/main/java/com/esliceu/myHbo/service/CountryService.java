@@ -28,4 +28,16 @@ public class CountryService {
     public void delete(Integer id) {
         countryRepo.deleteById(id);
     }
+
+    public Country update(Integer id, String countryName, String isoCode) {
+
+        Country country = countryRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Country not found"));
+
+        country.setCountryName(countryName);
+        country.setIsoCode(isoCode);
+
+        return countryRepo.save(country);
+    }
+
 }

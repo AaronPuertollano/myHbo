@@ -4,6 +4,13 @@
     <title>Countries</title>
 </head>
 <body>
+<script>
+    function toggleEdit(id) {
+        const row = document.getElementById('edit-row-' + id);
+        row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+    }
+</script>
+<a href="/crud">Back</a>
 
 <h2>Añadir Nuevo País</h2>
 <form action="/country" method="post">
@@ -30,19 +37,54 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="c : ${country}">
-        <td th:text="${c.id}"></td>
-        <td th:text="${c.isoCode}"></td>
-        <td th:text="${c.countryName}"></td>
-        <td>
-            <form action="/country/delete" method="post" style="display:inline;">
-                <input type="hidden" name="id" th:value="${c.id}">
-                <button type="submit" onclick="return confirm('¿Seguro que quieres borrar este país?')">
-                    Borrar
+    <th:block th:each="c : ${country}">
+
+        <!-- FILA NORMAL -->
+        <tr>
+            <td th:text="${c.id}"></td>
+            <td th:text="${c.isoCode}"></td>
+            <td th:text="${c.countryName}"></td>
+            <td>
+                <button type="button"
+                        th:onclick="'toggleEdit(' + ${c.id} + ')'">
+                    Editar
                 </button>
-            </form>
-        </td>
-    </tr>
+
+                <form action="/country/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${c.id}">
+                    <button type="submit"
+                            onclick="return confirm('¿Seguro que quieres borrar este país?')">
+                        Borrar
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+        <!-- FILA OCULTA CON FORMULARIO -->
+        <tr th:id="'edit-row-' + ${c.id}" style="display:none;">
+            <td colspan="4">
+                <form action="/country/update" method="post">
+
+                    <input type="hidden" name="id" th:value="${c.id}">
+
+                    Código ISO:
+                    <input type="text" name="isoCode"
+                           th:value="${c.isoCode}" required>
+
+                    Nombre:
+                    <input type="text" name="countryName"
+                           th:value="${c.countryName}" required>
+
+                    <button type="submit">Guardar</button>
+                    <button type="button"
+                            th:onclick="'toggleEdit(' + ${c.id} + ')'">
+                        Cancelar
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+    </th:block>
     </tbody>
 </table>
 

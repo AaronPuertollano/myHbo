@@ -1,5 +1,6 @@
 package com.esliceu.myHbo.service;
 
+import com.esliceu.myHbo.model.Genre;
 import com.esliceu.myHbo.model.Language;
 import com.esliceu.myHbo.model.LanguageRole;
 import com.esliceu.myHbo.repo.LanguageRoleRepo;
@@ -34,5 +35,14 @@ public class LanguageRoleService {
     public Integer getNextId() {
         Integer maxId = languageRoleRepo.findMaxId();
         return (maxId == null) ? 1 : maxId + 1;
+    }
+
+    public LanguageRole update(Integer id, String languageRol) {
+
+        LanguageRole genre = languageRoleRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Genre not found"));
+        genre.setLanguageRole(languageRol);
+
+        return languageRoleRepo.save(genre);
     }
 }

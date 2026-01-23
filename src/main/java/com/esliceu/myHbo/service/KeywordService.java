@@ -1,6 +1,7 @@
 package com.esliceu.myHbo.service;
 
 import com.esliceu.myHbo.model.Country;
+import com.esliceu.myHbo.model.Genre;
 import com.esliceu.myHbo.model.Keyword;
 import com.esliceu.myHbo.repo.KeywordRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,14 @@ public class KeywordService {
 
     public Integer getNextId() {
         return keywordRepo.getNextId();
+    }
+
+    public Keyword update(Integer id, String keywordName) {
+
+        Keyword keyword = keywordRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Keyword not found"));
+        keyword.setKeywordName(keywordName);
+
+        return keywordRepo.save(keyword);
     }
 }

@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Personas</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 </head>
 <body>
 
@@ -15,12 +18,22 @@
 </div>
 
 <h2>Añadir Nueva persona</h2>
+
 <form action="/person" method="post">
     <label>Nombre de la persona:
         <input type="text" name="personName" required>
     </label>
     <button type="submit">Añadir persona</button>
 </form>
+
+<hr>
+
+    <h2>Búsqueda de personas</h2>
+
+    <div class="ui-widget">
+        <label for="searchPerson">Buscar persona: </label>
+        <input id="searchPerson" type="text" placeholder="Escribe un nombre...">
+    </div>
 
 <hr>
 
@@ -50,4 +63,49 @@
     </tbody>
 </table>
 </body>
+
+<script>
+    $(function() {
+        $("#searchPerson").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "/person/search",
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        response($.map(data, function(person) {
+                            return {
+                                label: person.personName + " (ID: " + person.id + ")",
+                                value: person.personName,
+                                id: person.id,
+                                name: person.personName
+                            };
+                        }));
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error en búsqueda:", error);
+                    }
+                });
+            },
+            minLength: 2,
+            select: function(event, ui) {
+                console.log("Seleccionado:", ui.item);
+
+                $("#selectedId").text(ui.item.id);
+                $("#selectedName").text(ui.item.name);
+                $("#personResult").fadeIn();
+
+                return true;
+            },
+            focus: function(event, ui) {
+                event.preventDefault();
+                $("#searchPerson").val(ui.item.name);
+            }
+        });
+    });
+</script>
+
+
 </html>

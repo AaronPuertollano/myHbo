@@ -1,6 +1,7 @@
 package com.esliceu.myHbo.service;
 
 import com.esliceu.myHbo.model.Country;
+import com.esliceu.myHbo.model.Gender;
 import com.esliceu.myHbo.model.Genre;
 import com.esliceu.myHbo.repo.GenreRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,14 @@ public class GenreService {
     public Integer getNextId() {
         Integer maxId = genreRepo.findMaxId();
         return (maxId == null) ? 1 : maxId + 1;
+    }
+
+    public Genre update(Integer id, String genreName) {
+
+        Genre genre = genreRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Genre not found"));
+        genre.setGenreName(genreName);
+
+        return genreRepo.save(genre);
     }
 }
