@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Movie Companies</title>
+</head>
+<body>
+<h1>Compañías productoras de la película #<span th:text="${movieId}"></span></h1>
+
+<!-- Tabla de compañías existentes -->
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="company : ${companies}">
+        <td th:text="${company.id}"></td>
+        <td th:text="${company.name}"></td>
+        <td>
+            <!-- Formulario para eliminar -->
+            <form action="/movieCompany/remove" method="post" style="display:inline;">
+                <input type="hidden" name="movieId" th:value="${movieId}"/>
+                <input type="hidden" name="companyId" th:value="${company.id}"/>
+                <button type="submit">Eliminar</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+
+<!-- Formulario para agregar una nueva compañía -->
+<h2>Agregar compañía</h2>
+<form action="/movieCompany" method="post">
+    <input type="hidden" name="movieId" th:value="${movieId}"/>
+    <label>ID de Compañía:</label>
+    <input type="number" name="companyId" required/>
+    <button type="submit">Agregar</button>
+</form>
+
+<br>
+<a href="/movies">Volver a películas</a>
+</body>
+</html>

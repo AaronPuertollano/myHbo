@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registre</title>
+</head>
+<body>
+<h1>Registre d'usuari</h1>
+
+<div th:if="${error}" style="color: red;">
+    <p th:text="${error}"></p>
+</div>
+
+<form action="/register" method="post">
+    <div>
+        <label>Nom d'usuari:</label>
+        <input type="text" name="username" required/>
+    </div>
+    <div>
+        <label>Correu electrònic:</label>
+        <input type="email" name="email" required/>
+    </div>
+    <div>
+        <label>Contrasenya:</label>
+        <input type="password" name="password" required minlength="6"/>
+    </div>
+    <button type="submit">Registrar-se</button>
+</form>
+
+<p>Ja tens compte? <a href="/login">Fes login</a></p>
+</body>
+</html>
