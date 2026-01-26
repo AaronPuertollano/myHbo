@@ -242,4 +242,20 @@ public class Movie {
     public void setMovieLanguages(Set<MovieLanguage> movieLanguages) {
         this.movieLanguages = movieLanguages;
     }
+
+    public Set<MovieCast> getCast() {
+        return cast;
+    }
+
+    public void setCast(Set<MovieCast> cast) {
+        this.cast = cast;
+    }
+
+    public Set<MovieCrew> getCrew() {
+        return crew;
+    }
+
+    public void setCrew(Set<MovieCrew> crew) {
+        this.crew = crew;
+    }
 }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultats de Cerca</title>
+</head>
+<body>
+<h1>Resultats de Cerca</h1>
+
+<div class="search-info">
+    <strong>Tipus de cerca:</strong>
+    <span th:text="${searchType == 'title' ? 'Títol' :
+                        searchType == 'actor' ? 'Actor' :
+                        searchType == 'character' ? 'Personatge' :
+                        searchType == 'genre' ? 'Gènere' :
+                        searchType == 'director' ? 'Director' : 'Desconegut'}"></span>
+    <br>
+    <strong>Terme:</strong> <span th:text="${searchTerm}"></span>
+    <br>
+    <strong>Resultats trobats:</strong> <span th:text="${movies.size()}"></span>
+</div>
+
+<div th:if="${movies.isEmpty()}" class="no-results">
+    <p>No s'han trobat pel·lícules amb els criteris de cerca.</p>
+</div>
+
+<table th:if="${!movies.isEmpty()}">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Títol</th>
+        <th>Data d'estrena</th>
+        <th>Popularitat</th>
+        <th>Puntuació</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="movie : ${movies}">
+        <td th:text="${movie.id}"></td>
+        <td>
+            <a th:href="@{/movies/info(id=${movie.id})}" th:text="${movie.title}">Title</a>
+        </td>
+        <td th:text="${movie.releaseDate}"></td>
+        <td th:text="${movie.popularity}"></td>
+        <td th:text="${movie.voteAverage}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/movies/search" class="back-link">← Tornar a la cerca</a>
+</body>
+</html>

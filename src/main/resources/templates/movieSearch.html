@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cerca de Pel·lícules</title>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+</head>
+<body>
+<div class="search-container">
+    <a href="/home">Inicio</a>
+    <h1>Cerca de Pel·lícules</h1>
+
+    <form action="/movies/results" method="get">
+        <div class="form-group">
+            <label for="searchType">Tipus de cerca:</label>
+            <select id="searchType" name="searchType">
+                <option value="title">Per títol</option>
+                <option value="actor">Per actor</option>
+                <option value="character">Per personatge</option>
+                <option value="genre">Per gènere</option>
+                <option value="director">Per director</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="searchTerm">Terme de cerca:</label>
+            <input type="text" id="searchTerm" name="searchTerm" placeholder="Escriu aquí" required/>
+        </div>
+
+        <button type="submit">Cercar</button>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function() {
+        function updateAutocomplete() {
+            var searchType = $('#searchType').val();
+
+            if ($('#searchTerm').hasClass('ui-autocomplete-input')) {
+                $('#searchTerm').autocomplete('destroy');
+            }
+
+            if (searchType === 'title') {
+                $('#searchTerm').autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                            url: '/api/movies/autocomplete',
+                            data: { term: request.term },
+                            success: function(data) {
+                                response(data);
+                            }
+                        });
+                    },
+                    minLength: 2,
+                    select: function(event, ui) {
+                        // Cuando selecciona una opción, enviar el formulario
+                        $(this).val(ui.item.value);
+                        $(this).closest('form').submit();
+                    }
+                });
+            }
+        }
+
+        updateAutocomplete();
+
+        // Actualizar cuando cambia el tipo de búsqueda
+        $('#searchType').on('change', function() {
+            $('#searchTerm').val('');
+            updateAutocomplete();
+        });
+    });
+</script>
+</body>
+</html>
+

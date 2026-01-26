@@ -20,8 +20,8 @@ public class MoveController {
         return "crud";
     }
 
-    @GetMapping("/movieHome")
+    @GetMapping("/moviehome")
     public String getMovieHome(Model model) {
-        return "movieHome";
+        return "moviehome";
     }
 }

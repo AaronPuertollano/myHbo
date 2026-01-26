@@ -3,8 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form div {
+            margin-bottom: 10px;
+        }
+        label {
+            display: inline-block;
+            width: 120px;
+        }
+        input {
+            padding: 5px;
+            width: 200px;
+        }
+        button {
+            padding: 5px 10px;
+        }
+        header {
+            background-color: #000000;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: white;
+            background-color: #000000;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
+<header>
+    <h1>MyHBO</h1>
+</header>
 <h1>Login</h1>
 
 <div th:if="${error}" style="color: red;">
@@ -17,16 +58,21 @@
 
 <form action="/login" method="post">
     <div>
-        <label>Nom d'usuari:</label>
+        <label>Nombre:</label>
         <input type="text" name="username" required/>
     </div>
     <div>
-        <label>Contrasenya:</label>
+        <label>Contraseña:</label>
         <input type="password" name="password" required/>
     </div>
     <button type="submit">Entrar</button>
 </form>
 
-<p>No tens compte? <a href="/register">Registra't</a></p>
+<p>No tienes cuenta? <a href="/register">Registrate</a></p>
+<p>Solo quieres usar la busqueda de peliculas? <a href="/movies/search">Busqueda</a></p>
+
+<footer>
+    <p>&copy; 2026 MyHBO - Proyecto de Servidor</p>
+</footer>
 </body>
 </html>

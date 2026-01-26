@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${movie.title}">Movie Info</title>
+</head>
+<body>
+<div class="movie-header">
+    <h1 class="movie-title" th:text="${movie.title}">Movie Title</h1>
+    <p class="movie-tagline" th:text="${movie.tagline}">Tagline</p>
+
+    <div class="movie-details">
+        <div class="detail-item">
+            <div class="detail-label">Data d'estrena</div>
+            <div class="detail-value" th:text="${movie.releaseDate}">-</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Durada</div>
+            <div class="detail-value" th:text="${movie.runtime} + ' min'">-</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Pressupost</div>
+            <div class="detail-value" th:text="${movie.budget != null ? '$' + #numbers.formatInteger(movie.budget, 0, 'COMMA') : 'Desconegut'}">-</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Ingressos</div>
+            <div class="detail-value" th:text="${movie.revenue != null ? '$' + #numbers.formatInteger(movie.revenue, 0, 'COMMA') : 'Desconegut'}">-</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Puntuació</div>
+            <div class="detail-value" th:text="${movie.voteAverage} + '/10'">-</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Vots</div>
+            <div class="detail-value" th:text="${movie.voteCount}">-</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Popularitat</div>
+            <div class="detail-value" th:text="${movie.popularity}">-</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Estat</div>
+            <div class="detail-value" th:text="${movie.movieStatus}">-</div>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <strong>Sinopsi:</strong>
+        <p th:text="${movie.overview}">Overview</p>
+    </div>
+</div>
+
+<!-- GÉNEROS -->
+<div class="section" th:if="${!genres.isEmpty()}">
+    <h2 class="section-title">Gèneres</h2>
+    <div>
+        <span class="badge" th:each="genre : ${genres}" th:text="${genre.genreName}">Genre</span>
+    </div>
+</div>
+
+<!-- REPARTO (CAST) -->
+<div class="section" th:if="${!cast.isEmpty()}">
+    <h2 class="section-title">Repartiment</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Actor/Actriu</th>
+            <th>Personatge</th>
+            <th>Ordre</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c : ${cast}">
+            <td th:text="${c.person.personName}">Actor Name</td>
+            <td th:text="${c.characterName}">Character</td>
+            <td th:text="${c.castOrder}">Order</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- EQUIPO (CREW) -->
+<div class="section" th:if="${!crew.isEmpty()}">
+    <h2 class="section-title">Equip tècnic</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Càrrec</th>
+            <th>Departament</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c : ${crew}">
+            <td th:text="${c.person.personName}">Crew Name</td>
+            <td th:text="${c.job}">Job</td>
+            <td th:text="${c.department.departmentName}">Department</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- COMPAÑÍAS PRODUCTORAS -->
+<div class="section" th:if="${!companies.isEmpty()}">
+    <h2 class="section-title">Companyies productores</h2>
+    <div>
+        <span class="badge" th:each="company : ${companies}" th:text="${company.companyName}">Company</span>
+    </div>
+</div>
+
+<!-- PAÍSES -->
+<div class="section" th:if="${!countries.isEmpty()}">
+    <h2 class="section-title">Països de producció</h2>
+    <div>
+        <span class="badge" th:each="country : ${countries}" th:text="${country.countryName}">Country</span>
+    </div>
+</div>
+
+<!-- IDIOMAS -->
+<div class="section" th:if="${!languages.isEmpty()}">
+    <h2 class="section-title">Idiomes</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Idioma</th>
+            <th>Rol</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ml : ${languages}">
+            <td th:text="${ml.language.name}">Language</td>
+            <td th:text="${ml.languageRole.languageRole}">Role</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- KEYWORDS -->
+<div class="section" th:if="${!keywords.isEmpty()}">
+    <h2 class="section-title">Paraules clau</h2>
+    <div>
+        <span class="badge" th:each="keyword : ${keywords}" th:text="${keyword.keywordName}">Keyword</span>
+    </div>
+</div>
+
+<a href="/movies/search" class="back-link">← Tornar a la cerca</a>
+</body>
+</html>
