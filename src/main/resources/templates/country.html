@@ -98,7 +98,6 @@
     <tbody>
     <th:block th:each="c : ${country}">
 
-        <!-- FILA NORMAL -->
         <tr>
             <td th:text="${c.id}"></td>
             <td th:text="${c.isoCode}"></td>
@@ -119,7 +118,6 @@
             </td>
         </tr>
 
-        <!-- FILA OCULTA CON FORMULARIO -->
         <tr th:id="'edit-row-' + ${c.id}" style="display:none;">
             <td colspan="4">
                 <form action="/country/update" method="post">

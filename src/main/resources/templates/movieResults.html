@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Resultats de Cerca</title>
+    <title>Resultados</title>
 </head>
 <body>
-<a href="/movies/search" class="back-link">← Tornar a la cerca</a>
-<h1>Resultats de Cerca</h1>
+<a href="/movies/search" class="back-link">← Volver</a>
+<h1>Resultados de la busqueda</h1>
 
 <div class="search-info">
     <strong>Tipus de cerca:</strong>
@@ -18,21 +18,24 @@
     <br>
     <strong>Terme:</strong> <span th:text="${searchTerm}"></span>
     <br>
-    <strong>Resultats trobats:</strong> <span th:text="${movies.size()}"></span>
+    <strong>Resultados obtenidos:</strong> <span th:text="${movies.size()}"></span>
 </div>
 
 <div th:if="${movies.isEmpty()}" class="no-results">
-    <p>No s'han trobat pel·lícules amb els criteris de cerca.</p>
+    <p>No de ha encontrado ningula pelicula de sus características.</p>
 </div>
+
+<div th:if="${error}" class="error" th:text="${error}"></div>
 
 <table th:if="${!movies.isEmpty()}">
     <thead>
     <tr>
         <th>ID</th>
-        <th>Títol</th>
-        <th>Data d'estrena</th>
-        <th>Popularitat</th>
-        <th>Puntuació</th>
+        <th>Titulo</th>
+        <th>Fecha de estreno</th>
+        <th>Popularidad</th>
+        <th>Puntuacion</th>
+        <th>Acciones</th>
     </tr>
     </thead>
     <tbody>
@@ -44,6 +47,10 @@
         <td th:text="${movie.releaseDate}"></td>
         <td th:text="${movie.popularity}"></td>
         <td th:text="${movie.voteAverage}"></td>
+        <td>
+            <a th:href="@{/movies/edit(id=${movie.id})}">Editar</a> |
+            <a th:href="@{/movies/delete(id=${movie.id})}" onclick="return confirm('Estas seguro?');">Eliminar</a>
+        </td>
     </tr>
     </tbody>
 </table>

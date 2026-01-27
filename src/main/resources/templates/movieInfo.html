@@ -6,20 +6,20 @@
 </head>
 <body>
 <div class="movie-header">
-    <h1 class="movie-title" th:text="${movie.title}">Movie Title</h1>
+    <h1 class="movie-title" th:text="${movie.title}">Titulo</h1>
     <p class="movie-tagline" th:text="${movie.tagline}">Tagline</p>
 
     <div class="movie-details">
         <div class="detail-item">
-            <div class="detail-label">Data d'estrena</div>
+            <div class="detail-label">Fecha de estreno</div>
             <div class="detail-value" th:text="${movie.releaseDate}">-</div>
         </div>
         <div class="detail-item">
-            <div class="detail-label">Durada</div>
+            <div class="detail-label">Duracion</div>
             <div class="detail-value" th:text="${movie.runtime} + ' min'">-</div>
         </div>
         <div class="detail-item">
-            <div class="detail-label">Pressupost</div>
+            <div class="detail-label">Presupuesto</div>
             <div class="detail-value" th:text="${movie.budget != null ? '$' + #numbers.formatInteger(movie.budget, 0, 'COMMA') : 'Desconegut'}">-</div>
         </div>
         <div class="detail-item">
@@ -27,19 +27,19 @@
             <div class="detail-value" th:text="${movie.revenue != null ? '$' + #numbers.formatInteger(movie.revenue, 0, 'COMMA') : 'Desconegut'}">-</div>
         </div>
         <div class="detail-item">
-            <div class="detail-label">Puntuació</div>
+            <div class="detail-label">Puntuacion</div>
             <div class="detail-value" th:text="${movie.voteAverage} + '/10'">-</div>
         </div>
         <div class="detail-item">
-            <div class="detail-label">Vots</div>
+            <div class="detail-label">Votos</div>
             <div class="detail-value" th:text="${movie.voteCount}">-</div>
         </div>
         <div class="detail-item">
-            <div class="detail-label">Popularitat</div>
+            <div class="detail-label">Popularidad</div>
             <div class="detail-value" th:text="${movie.popularity}">-</div>
         </div>
         <div class="detail-item">
-            <div class="detail-label">Estat</div>
+            <div class="detail-label">Estado</div>
             <div class="detail-value" th:text="${movie.movieStatus}">-</div>
         </div>
     </div>
@@ -50,79 +50,73 @@
     </div>
 </div>
 
-<!-- GÉNEROS -->
 <div class="section" th:if="${!genres.isEmpty()}">
-    <h2 class="section-title">Gèneres</h2>
+    <h2 class="section-title">Generos</h2>
     <div>
         <span class="badge" th:each="genre : ${genres}" th:text="${genre.genreName}">Genre</span>
     </div>
 </div>
 
-<!-- REPARTO (CAST) -->
 <div class="section" th:if="${!cast.isEmpty()}">
     <h2 class="section-title">Repartiment</h2>
     <table>
         <thead>
         <tr>
             <th>Actor/Actriu</th>
-            <th>Personatge</th>
-            <th>Ordre</th>
+            <th>Personaja</th>
+            <th>Ordren</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="c : ${cast}">
-            <td th:text="${c.person.personName}">Actor Name</td>
-            <td th:text="${c.characterName}">Character</td>
-            <td th:text="${c.castOrder}">Order</td>
+            <td th:text="${c.person.personName}">Nombre de actor</td>
+            <td th:text="${c.characterName}">Personaje</td>
+            <td th:text="${c.castOrder}">Orden</td>
         </tr>
         </tbody>
     </table>
 </div>
 
-<!-- EQUIPO (CREW) -->
 <div class="section" th:if="${!crew.isEmpty()}">
-    <h2 class="section-title">Equip tècnic</h2>
+    <h2 class="section-title">Equipo tecnico</h2>
     <table>
         <thead>
         <tr>
-            <th>Nom</th>
-            <th>Càrrec</th>
-            <th>Departament</th>
+            <th>Nombre</th>
+            <th>Puesto</th>
+            <th>Departamento</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="c : ${crew}">
-            <td th:text="${c.person.personName}">Crew Name</td>
-            <td th:text="${c.job}">Job</td>
-            <td th:text="${c.department.departmentName}">Department</td>
+            <td th:text="${c.person.personName}">Nombre de la crew</td>
+            <td th:text="${c.job}">Trabajo</td>
+            <td th:text="${c.department.departmentName}">Departmento</td>
         </tr>
         </tbody>
     </table>
 </div>
 
-<!-- COMPAÑÍAS PRODUCTORAS -->
 <div class="section" th:if="${!companies.isEmpty()}">
-    <h2 class="section-title">Companyies productores</h2>
+    <h2 class="section-title">Productoras</h2>
     <div>
         <span class="badge" th:each="company : ${companies}" th:text="${company.companyName}">Company</span>
     </div>
 </div>
 
-<!-- PAÍSES -->
 <div class="section" th:if="${!countries.isEmpty()}">
-    <h2 class="section-title">Països de producció</h2>
+    <h2 class="section-title">Paises involucrados</h2>
     <div>
         <span class="badge" th:each="country : ${countries}" th:text="${country.countryName}">Country</span>
     </div>
 </div>
 
-<!-- IDIOMAS -->
 <div class="section" th:if="${!languages.isEmpty()}">
-    <h2 class="section-title">Idiomes</h2>
+    <h2 class="section-title">Idiomas</h2>
     <table>
         <thead>
         <tr>
-            <th>Idioma</th>
+            <th>Idiomas</th>
             <th>Rol</th>
         </tr>
         </thead>
@@ -135,14 +129,13 @@
     </table>
 </div>
 
-<!-- KEYWORDS -->
 <div class="section" th:if="${!keywords.isEmpty()}">
-    <h2 class="section-title">Paraules clau</h2>
+    <h2 class="section-title">Palabras clave</h2>
     <div>
         <span class="badge" th:each="keyword : ${keywords}" th:text="${keyword.keywordName}">Keyword</span>
     </div>
 </div>
 
-<a href="/movies/search" class="back-link">← Tornar a la cerca</a>
+<a href="/movies/search" class="back-link">← Volver</a>
 </body>
 </html>

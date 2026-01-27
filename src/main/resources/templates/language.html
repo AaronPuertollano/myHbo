@@ -2,6 +2,65 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Languages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            margin-bottom: 80px;
+        }
+        form div {
+            margin-bottom: 10px;
+        }
+        label {
+            display: inline-block;
+            width: 120px;
+        }
+        input {
+            padding: 5px;
+            width: 200px;
+        }
+        button {
+            padding: 5px 10px;
+            margin-right: 5px;
+        }
+        header {
+            background-color: #000000;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: white;
+            background-color: #000000;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        a {
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 
@@ -18,7 +77,9 @@
     }
 </script>
 
-<h2>Add Language</h2>
+<a href="/crud">Back</a>
+
+<h2>Añadir Language</h2>
 <form action="/language" method="post">
     <label>Name:
         <input type="text" name="languageName" required>
@@ -31,7 +92,7 @@
     <button type="submit">Add Language</button>
 </form>
 
-<h1>List of Languages</h1>
+<h1>Lista de Languages</h1>
 
 <table>
     <thead>
