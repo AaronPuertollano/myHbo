@@ -5,12 +5,17 @@ import com.esliceu.myHbo.model.MovieCast;
 import com.esliceu.myHbo.model.MovieCrew;
 import com.esliceu.myHbo.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,4 +71,56 @@ public class MovieController {
         return "movieInfo";
     }
 
+    @PostMapping("/movies/delete")
+    public String deleteMovie(@RequestParam Integer id) {
+        movieService.delete(id);
+        return "redirect:/movieSearch";
+    }
+
+    @GetMapping("/movies/create")
+    public String createMoviePage() {
+        return "movieCreate";
+    }
+
+    @PostMapping("/movies/create")
+    public String createMovie(
+            @RequestParam String title,
+            @RequestParam(required = false) Integer budget,
+            @RequestParam(required = false) String homepage,
+            @RequestParam(required = false) String overview,
+            @RequestParam(required = false) BigDecimal popularity,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate releaseDate,
+            @RequestParam(required = false) Long revenue,
+            @RequestParam(required = false) Integer runtime,
+            @RequestParam(required = false) String movieStatus,
+            @RequestParam(required = false) String tagline,
+            @RequestParam(required = false) BigDecimal voteAverage,
+            @RequestParam(required = false) Integer voteCount,
+            Model model) {
+
+        try {
+            Movie movie = new Movie();
+            movie.setTitle(title);
+            movie.setBudget(budget);
+            movie.setHomepage(homepage);
+            movie.setOverview(overview);
+            movie.setPopularity(popularity);
+            movie.setReleaseDate(releaseDate);
+            movie.setRevenue(revenue);
+            movie.setRuntime(runtime);
+            movie.setMovieStatus(movieStatus);
+            movie.setTagline(tagline);
+            movie.setVoteAverage(voteAverage);
+            movie.setVoteCount(voteCount);
+
+            movieService.save(movie);
+
+            model.addAttribute("success", "Creado con exito!");
+            return "redirect:/movies/info?id=" + movie.getId();
+
+        } catch (Exception e) {
+            model.addAttribute("error", "Error: " + e.getMessage());
+            return "movieCreate";
+        }
+    }
 }

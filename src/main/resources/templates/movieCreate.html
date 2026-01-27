@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear movie</title>
+</head>
+<body>
+<a href="/home" class="back-link">← Vuelve</a>
+<div class="form-container">
+    <h1>Creación de pelicula</h1>
+
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+    <div th:if="${success}" class="success" th:text="${success}"></div>
+
+    <form action="/movies/create" method="post">
+
+        <div class="form-group">
+            <label for="title" class="required">Tíitulo</label>
+            <input type="text" id="title" name="title" required maxlength="1000"/>
+        </div>
+
+        <div class="form-group">
+            <label for="tagline">Eslogan</label>
+            <input type="text" id="tagline" name="tagline" maxlength="1000"/>
+        </div>
+
+        <div class="form-group">
+            <label for="overview">Sinopsis</label>
+            <textarea id="overview" name="overview" maxlength="1000"></textarea>
+        </div>
+
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="releaseDate">Fecha de estreno</label>
+                <input type="date" id="releaseDate" name="releaseDate"/>
+            </div>
+
+            <div class="form-group">
+                <label for="runtime">Duración</label>
+                <input type="number" id="runtime" name="runtime" min="0"/>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="budget">Presupuesto</label>
+                <input type="number" id="budget" name="budget" min="0"/>
+            </div>
+
+            <div class="form-group">
+                <label for="revenue">Ingresos</label>
+                <input type="number" id="revenue" name="revenue" min="0"/>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="popularity">Popularidad</label>
+                <input type="number" id="popularity" name="popularity" step="0.000001" min="0"/>
+            </div>
+
+            <div class="form-group">
+                <label for="voteAverage">Puntuación</label>
+                <input type="number" id="voteAverage" name="voteAverage" step="0.01" min="0" max="10"/>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="voteCount">Nomeros de votos</label>
+                <input type="number" id="voteCount" name="voteCount" min="0"/>
+            </div>
+
+            <div class="form-group">
+                <label for="movieStatus">Estado</label>
+                <select id="movieStatus" name="movieStatus">
+                    <option value="">Selecciona...</option>
+                    <option value="Released">Released</option>
+                    <option value="Post Production">Post Production</option>
+                    <option value="In Production">In Production</option>
+                    <option value="Planned">Planned</option>
+                    <option value="Canceled">Canceled</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="homepage">Pàgina web</label>
+            <input type="url" id="homepage" name="homepage" maxlength="1000" placeholder="https://"/>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <button type="submit">Crear Pel·lícula</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
