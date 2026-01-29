@@ -119,4 +119,38 @@ public class MovieEditController {
             return "redirect:/movies/edit?id=" + id;
         }
     }
+
+    @GetMapping("/movies/edit/crew")
+    public String editMovieCrew(@RequestParam Integer id, Model model){
+
+        Optional<Movie> movieOpt = movieService.findByIdWithAllInfo(id);
+
+        if (movieOpt.isEmpty()) {
+            model.addAttribute("error", "Pel·lícula no trobada");
+            return "redirect:/movies/search";
+        }
+
+        Movie movie = movieOpt.get();
+        model.addAttribute("crew", movie.getCrew());
+
+        return "movieEditCrew";
+    }
+
+    @GetMapping("/movies/edit/cast")
+    public String editMovieCast(@RequestParam Integer id, Model model){
+
+        Optional<Movie> movieOpt = movieService.findByIdWithAllInfo(id);
+
+        if (movieOpt.isEmpty()) {
+            model.addAttribute("error", "Pel·lícula no trobada");
+            return "redirect:/movies/search";
+        }
+
+        Movie movie = movieOpt.get();
+        model.addAttribute("cast", movie.getCast());
+
+        return "movieEditCast";
+    }
+
+
 }
