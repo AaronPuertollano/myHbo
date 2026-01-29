@@ -47,9 +47,24 @@
         <td th:text="${movie.releaseDate}"></td>
         <td th:text="${movie.popularity}"></td>
         <td th:text="${movie.voteAverage}"></td>
-        <td>
-            <a th:href="@{/movies/edit(id=${movie.id})}">Editar</a> |
-            <a th:href="@{/movies/delete(id=${movie.id})}" onclick="return confirm('Estas seguro?');">Eliminar</a>
+        <td class="action-links">
+            <div th:if="${session.username != null}">
+                <a th:href="@{/movies/edit(id=${movie.id})}">Editar</a> |
+                <form th:action="@{/movies/delete}" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${movie.id}"/>
+                    <button type="submit"
+                            onclick="return confirm('Estàs seguro?');">
+                        Eliminar
+                    </button>
+                </form>
+            </div>
+
+            <div th:if="${session.username == null}">
+                        <span class="login-required">
+                            Inicia sesion para realizar acciones
+                            <a href="/login" style="color: #856404; text-decoration: underline;">Entra aqui</a>
+                        </span>
+            </div>
         </td>
     </tr>
     </tbody>

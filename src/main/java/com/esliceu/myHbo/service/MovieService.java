@@ -1,20 +1,33 @@
 package com.esliceu.myHbo.service;
 
-import com.esliceu.myHbo.model.Country;
-import com.esliceu.myHbo.model.Movie;
-import com.esliceu.myHbo.repo.MovieRepo;
+import com.esliceu.myHbo.model.*;
+import com.esliceu.myHbo.repo.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class MovieService {
 
     @Autowired
     MovieRepo movieRepo;
+
+    @Autowired
+    GenreRepo genreRepo;
+
+    @Autowired
+    CountryRepo countryRepo;
+
+    @Autowired
+    ProductionCompanyRepo productionCompanyRepo;
+
+    @Autowired
+    KeywordRepo keywordRepo;
 
     public List<Movie> findAll() {
         return movieRepo.findAll();
@@ -54,6 +67,42 @@ public class MovieService {
     @Transactional
     public Optional<Movie> findByIdWithAllInfo(Integer id) {
         return movieRepo.findByIdWithAllRelations(id);
+    }
+
+    @Transactional
+    public void updateMovieRelations(Movie movie,
+                                     List<Integer> genreIds,
+                                     List<Integer> countryIds,
+                                     List<Integer> companyIds,
+                                     List<Integer> keywordIds) {
+
+        if (genreIds != null) {
+            Set<Genre> genres = new HashSet<>(genreRepo.findAllById(genreIds));
+            movie.setGenres(genres);
+        } else {
+            movie.setGenres(new HashSet<>());
+        }
+
+        if (countryIds != null) {
+            Set<Country> countries = new HashSet<>(countryRepo.findAllById(countryIds));
+            movie.setCountries(countries);
+        } else {
+            movie.setCountries(new HashSet<>());
+        }
+
+        if (companyIds != null) {
+            Set<ProductionCompany> companies = new HashSet<>(productionCompanyRepo.findAllById(companyIds));
+            movie.setProductionCompanies(companies);
+        } else {
+            movie.setProductionCompanies(new HashSet<>());
+        }
+
+        if (keywordIds != null) {
+            Set<Keyword> keywords = new HashSet<>(keywordRepo.findAllById(keywordIds));
+            movie.setKeywords(keywords);
+        } else {
+            movie.setKeywords(new HashSet<>());
+        }
     }
 
 }

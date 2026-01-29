@@ -22,9 +22,19 @@ public class MyHboApplication implements WebMvcConfigurer {
         SpringApplication.run(MyHboApplication.class, args);
     }
 
-    /*
+
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(sessionInterceptor);
-    }*/
+public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(sessionInterceptor)
+            .addPathPatterns("/**")  // Proteger TODAS las rutas
+            .excludePathPatterns(
+                "/login",           // Login
+                "/register",        // Registro
+                "/movies/search",   // Búsqueda de películas
+                "/movies/results",  // Resultados de búsqueda
+                "/movies/info",     // Información de película
+                "/api/movies/autocomplete"  // API para autocompletado
+            );
+
+    }
 }

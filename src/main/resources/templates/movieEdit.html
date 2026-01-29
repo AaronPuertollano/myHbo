@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Pel·lícula</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+<a href="/home">Inicio</a>
+<div class="form-container">
+    <h1>Editar Pel·lícula: <span th:text="${movie.title}">Title</span></h1>
+
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+
+    <form th:action="@{/movies/edit}" method="post">
+
+        <input type="hidden" name="id" th:value="${movie.id}"/>
+
+        <div class="section">
+            <div>Informació bàsica</div>
+
+            <div>
+                <label for="title">Titulo *</label>
+                <input type="text" id="title" name="title"
+                       th:value="${movie.title}" required maxlength="1000"/>
+            </div>
+
+            <div>
+                <label for="tagline">Eslogan</label>
+                <input type="text" id="tagline" name="tagline"
+                       th:value="${movie.tagline}" maxlength="1000"/>
+            </div>
+
+            <div>
+                <label for="overview">Sinopsis</label>
+                <textarea id="overview" name="overview"
+                          maxlength="1000" th:text="${movie.overview}"></textarea>
+            </div>
+        </div>
+
+        <div class="section">
+            <div>Detalls tècnics</div>
+
+            <div>
+                <div>
+                    <label for="releaseDate">Fecha de estreno</label>
+                    <input type="date" id="releaseDate" name="releaseDate"
+                           th:value="${movie.releaseDate}"/>
+                </div>
+
+                <div>
+                    <label for="runtime">Duracion</label>
+                    <input type="number" id="runtime" name="runtime"
+                           th:value="${movie.runtime}" min="0"/>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <label for="budget">Presupuesto</label>
+                    <input type="number" id="budget" name="budget"
+                           th:value="${movie.budget}" min="0"/>
+                </div>
+
+                <div>
+                    <label for="revenue">Ingressos</label>
+                    <input type="number" id="revenue" name="revenue"
+                           th:value="${movie.revenue}" min="0"/>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <label for="popularity">Populardad</label>
+                    <input type="number" id="popularity" name="popularity"
+                           th:value="${movie.popularity}" step="0.000001" min="0"/>
+                </div>
+
+                <div>
+                    <label for="voteAverage">Puntuacion</label>
+                    <input type="number" id="voteAverage" name="voteAverage"
+                           th:value="${movie.voteAverage}" step="0.01" min="0" max="10"/>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <label for="voteCount">Numero de votos</label>
+                    <input type="number" id="voteCount" name="voteCount"
+                           th:value="${movie.voteCount}" min="0"/>
+                </div>
+
+                <div>
+                    <label for="movieStatus">Estado</label>
+                    <select id="movieStatus" name="movieStatus">
+                        <option value="">Selecciona...</option>
+                        <option value="Released" th:selected="${movie.movieStatus == 'Released'}">Released</option>
+                        <option value="Post Production" th:selected="${movie.movieStatus == 'Post Production'}">Post Production</option>
+                        <option value="In Production" th:selected="${movie.movieStatus == 'In Production'}">In Production</option>
+                        <option value="Planned" th:selected="${movie.movieStatus == 'Planned'}">Planned</option>
+                        <option value="Canceled" th:selected="${movie.movieStatus == 'Canceled'}">Canceled</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label for="homepage">Pàgina web</label>
+                <input type="url" id="homepage" name="homepage"
+                       th:value="${movie.homepage}" maxlength="1000"/>
+            </div>
+        </div>
+
+        <div class="section">
+            <div>Generos</div>
+            <div>
+                <div th:each="genre : ${allGenres}">
+                    <input type="checkbox"
+                           name="genreIds"
+                           th:value="${genre.id}"
+                           th:id="'genre_' + ${genre.id}"
+                           th:checked="${selectedGenreIds.contains(genre.id)}"/>
+                    <label th:for="'genre_' + ${genre.id}" th:text="${genre.genreName}">Genre</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div>Paises implicados</div>
+            <div>
+                <div th:each="country : ${allCountries}">
+                    <input type="checkbox"
+                           name="countryIds"
+                           th:value="${country.id}"
+                           th:id="'country_' + ${country.id}"
+                           th:checked="${selectedCountryIds.contains(country.id)}"/>
+                    <label th:for="'country_' + ${country.id}" th:text="${country.countryName}">Country</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div>Compañias</div>
+            <div>
+                <label for="companySelect">Busca comañias</label>
+                <select id="companySelect" name="companyIds" multiple="multiple" style="width: 100%;">
+                    <option th:each="company : ${allCompanies}"
+                            th:value="${company.id}"
+                            th:text="${company.companyName}"
+                            th:selected="${selectedCompanyIds.contains(company.id)}">
+                    </option>
+                </select>
+                <p>Escribe para buscar.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div>Palabras clave</div>
+            <div>
+                <label for="keywordSelect">Busca y elige palabras clave</label>
+                <select id="keywordSelect" name="keywordIds" multiple="multiple" style="width: 100%;">
+                    <option th:each="keyword : ${allKeywords}"
+                            th:value="${keyword.id}"
+                            th:text="${keyword.keywordName}"
+                            th:selected="${selectedKeywordIds.contains(keyword.id)}">
+                    </option>
+                </select>
+                <p>Escribe para buscar.</p>
+            </div>
+        </div>
+
+        <div>
+            <button type="submit">Guardar canvios</button>
+        </div>
+    </form>
+</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#companySelect').select2({
+            placeholder: 'Buscar compañias...',
+            allowClear: true,
+            width: '100%'
+        });
+
+        $('#keywordSelect').select2({
+            placeholder: 'Buscar palabras clave...',
+            allowClear: true,
+            width: '100%'
+        });
+    });
+</script>
+</html>
