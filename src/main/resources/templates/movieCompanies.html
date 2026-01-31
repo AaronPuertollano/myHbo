@@ -65,6 +65,14 @@
 <body>
 <h1>Compañías productoras de la película #<span th:text="${movieId}"></span></h1>
 
+<div th:if="${success}" style="color: green; padding: 10px; border: 1px solid green;">
+    <span th:text="${success}"></span>
+</div>
+
+<div th:if="${error}" style="color: red; padding: 10px; border: 1px solid red;">
+    <span th:text="${error}"></span>
+</div>
+
 <table>
     <thead>
     <tr>

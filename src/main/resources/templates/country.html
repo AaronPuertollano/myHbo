@@ -71,6 +71,14 @@
 </script>
 <a href="/crud">Back</a>
 
+<div th:if="${success}" style="color: green; padding: 10px; border: 1px solid green;">
+    <span th:text="${success}"></span>
+</div>
+
+<div th:if="${error}" style="color: red; padding: 10px; border: 1px solid red;">
+    <span th:text="${error}"></span>
+</div>
+
 <h2>Añadir Nuevo País</h2>
 <form action="/country" method="post">
     <label>Nombre:

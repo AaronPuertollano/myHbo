@@ -55,7 +55,7 @@ public class MovieEditController {
         Optional<Movie> movieOpt = movieService.findByIdWithAllInfo(id);
 
         if (movieOpt.isEmpty()) {
-            model.addAttribute("error", "Pel·lícula no trobada");
+            model.addAttribute("error", "Pelicula no encontrada");
             return "redirect:/movies/search";
         }
 
@@ -105,7 +105,7 @@ public class MovieEditController {
             Optional<Movie> movieOpt = movieService.findById(id);
 
             if (movieOpt.isEmpty()) {
-                model.addAttribute("error", "Pel·lícula no trobada");
+                model.addAttribute("error", "Pel·lícula no encontrada");
                 return "redirect:/movies/search";
             }
 
@@ -131,12 +131,11 @@ public class MovieEditController {
             return "redirect:/movies/info?id=" + id;
 
         } catch (Exception e) {
-            model.addAttribute("error", "Error al actualitzar: " + e.getMessage());
+            model.addAttribute("error", "Error: " + e.getMessage());
             return "redirect:/movies/edit?id=" + id;
         }
     }
 
-    // ============ CAST ============
 
     @GetMapping("/movies/edit/cast")
     public String editMovieCast(@RequestParam Integer id, Model model) {
@@ -144,7 +143,7 @@ public class MovieEditController {
         Optional<Movie> movieOpt = movieService.findByIdWithAllInfo(id);
 
         if (movieOpt.isEmpty()) {
-            model.addAttribute("error", "Pel·lícula no trobada");
+            model.addAttribute("error", "Pelicula no encontrada");
             return "redirect:/movies/search";
         }
 
@@ -168,7 +167,7 @@ public class MovieEditController {
             movieCastService.addCastMember(movieId, personId, genderId, characterName, castOrder);
             return "redirect:/movies/edit/cast?id=" + movieId;
         } catch (Exception e) {
-            model.addAttribute("error", "Error al afegir actor: " + e.getMessage());
+            model.addAttribute("error", "Error: " + e.getMessage());
             return "redirect:/movies/edit/cast?id=" + movieId;
         }
     }
@@ -180,7 +179,6 @@ public class MovieEditController {
         return "redirect:/movies/edit/cast?id=" + movieId;
     }
 
-    // ============ CREW ============
 
     @GetMapping("/movies/edit/crew")
     public String editMovieCrew(@RequestParam Integer id, Model model) {
@@ -188,7 +186,7 @@ public class MovieEditController {
         Optional<Movie> movieOpt = movieService.findByIdWithAllInfo(id);
 
         if (movieOpt.isEmpty()) {
-            model.addAttribute("error", "Pel·lícula no trobada");
+            model.addAttribute("error", "Pelicula no encontrada");
             return "redirect:/movies/search";
         }
 
@@ -211,7 +209,7 @@ public class MovieEditController {
             movieCrewService.addCrewMember(movieId, personId, departmentId, job);
             return "redirect:/movies/edit/crew?id=" + movieId;
         } catch (Exception e) {
-            model.addAttribute("error", "Error al afegir crew: " + e.getMessage());
+            model.addAttribute("error", "Error al añadir crew: " + e.getMessage());
             return "redirect:/movies/edit/crew?id=" + movieId;
         }
     }
