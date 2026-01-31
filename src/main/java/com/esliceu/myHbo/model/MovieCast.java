@@ -31,6 +31,21 @@ public class MovieCast {
     @Column(name = "cast_order")
     private Integer castOrder;
 
+    protected MovieCast() {
+        // required by JPA
+    }
+
+    // your existing constructor
+    public MovieCast(Movie movie, Person person, Gender gender,
+                     String characterName, Integer castOrder) {
+        this.movie = movie;
+        this.person = person;
+        this.gender = gender;
+        this.characterName = characterName;
+        this.castOrder = castOrder;
+        this.id = new MovieCastId(movie.getId(), person.getId());
+    }
+
     public MovieCastId getId() {
         return id;
     }

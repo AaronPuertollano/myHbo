@@ -170,12 +170,12 @@
 
         <div class="section">
             <div>Reparto actual</div>
-            <a th:href="@{/movies/edit}">Editar</a>
+            <a th:href="@{/movies/edit/cast(id=${movie.id})}">Editar</a>
         </div>
 
         <div class="section">
             <div>Equipo técnico actual</div>
-            <a th:href="@{/movies/edit}">Editar</a>
+            <a th:href="@{/movies/edit/crew(id=${movie.id})}">Editar</a>
         </div>
 
         <div>

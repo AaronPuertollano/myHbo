@@ -33,6 +33,22 @@ public class MovieEditController {
     @Autowired
     private KeywordService keywordService;
 
+    @Autowired
+    private PersonService personService;
+
+    @Autowired
+    private GenderService genderService;
+
+    @Autowired
+    private DepartmentService departmentService;
+
+    @Autowired
+    private MovieCastService movieCastService;
+
+    @Autowired
+    private MovieCrewService movieCrewService;
+
+
     @GetMapping("/movies/edit")
     public String editMovieForm(@RequestParam Integer id, Model model) {
 
@@ -120,8 +136,10 @@ public class MovieEditController {
         }
     }
 
-    @GetMapping("/movies/edit/crew")
-    public String editMovieCrew(@RequestParam Integer id, Model model){
+    // ============ CAST ============
+
+    @GetMapping("/movies/edit/cast")
+    public String editMovieCast(@RequestParam Integer id, Model model) {
 
         Optional<Movie> movieOpt = movieService.findByIdWithAllInfo(id);
 
@@ -131,25 +149,78 @@ public class MovieEditController {
         }
 
         Movie movie = movieOpt.get();
+        model.addAttribute("movie", movie);
+        model.addAttribute("cast", movie.getCast());
+        model.addAttribute("allPersons", personService.findAll());
+        model.addAttribute("allGenders", genderService.findAll());
+
+        return "movieEditCast";
+    }
+
+    @PostMapping("/movies/cast/add")
+    public String addCastMember(@RequestParam Integer movieId,
+                                @RequestParam Integer personId,
+                                @RequestParam Integer genderId,
+                                @RequestParam String characterName,
+                                @RequestParam Integer castOrder,
+                                Model model) {
+        try {
+            movieCastService.addCastMember(movieId, personId, genderId, characterName, castOrder);
+            return "redirect:/movies/edit/cast?id=" + movieId;
+        } catch (Exception e) {
+            model.addAttribute("error", "Error al afegir actor: " + e.getMessage());
+            return "redirect:/movies/edit/cast?id=" + movieId;
+        }
+    }
+
+    @PostMapping("/movies/cast/delete")
+    public String deleteCastMember(@RequestParam Integer movieId,
+                                   @RequestParam Integer personId) {
+        movieCastService.deleteCastMember(movieId, personId);
+        return "redirect:/movies/edit/cast?id=" + movieId;
+    }
+
+    // ============ CREW ============
+
+    @GetMapping("/movies/edit/crew")
+    public String editMovieCrew(@RequestParam Integer id, Model model) {
+
+        Optional<Movie> movieOpt = movieService.findByIdWithAllInfo(id);
+
+        if (movieOpt.isEmpty()) {
+            model.addAttribute("error", "Pel·lícula no trobada");
+            return "redirect:/movies/search";
+        }
+
+        Movie movie = movieOpt.get();
+        model.addAttribute("movie", movie);
         model.addAttribute("crew", movie.getCrew());
+        model.addAttribute("allPersons", personService.findAll());
+        model.addAttribute("allDepartments", departmentService.findAll());
 
         return "movieEditCrew";
     }
 
-    @GetMapping("/movies/edit/cast")
-    public String editMovieCast(@RequestParam Integer id, Model model){
-
-        Optional<Movie> movieOpt = movieService.findByIdWithAllInfo(id);
-
-        if (movieOpt.isEmpty()) {
-            model.addAttribute("error", "Pel·lícula no trobada");
-            return "redirect:/movies/search";
+    @PostMapping("/movies/crew/add")
+    public String addCrewMember(@RequestParam Integer movieId,
+                                @RequestParam Integer personId,
+                                @RequestParam Integer departmentId,
+                                @RequestParam String job,
+                                Model model) {
+        try {
+            movieCrewService.addCrewMember(movieId, personId, departmentId, job);
+            return "redirect:/movies/edit/crew?id=" + movieId;
+        } catch (Exception e) {
+            model.addAttribute("error", "Error al afegir crew: " + e.getMessage());
+            return "redirect:/movies/edit/crew?id=" + movieId;
         }
+    }
 
-        Movie movie = movieOpt.get();
-        model.addAttribute("cast", movie.getCast());
-
-        return "movieEditCast";
+    @PostMapping("/movies/crew/delete")
+    public String deleteCrewMember(@RequestParam Integer movieId,
+                                   @RequestParam Integer personId) {
+        movieCrewService.deleteCrewMember(movieId, personId);
+        return "redirect:/movies/edit/crew?id=" + movieId;
     }
 
 

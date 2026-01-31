@@ -28,6 +28,17 @@ public class MovieCrew {
     @Column(name = "job")
     private String job;
 
+    protected MovieCrew() {
+        // required by JPA
+    }
+
+    public MovieCrew(Movie movie, Person person, Department department, String job) {
+        this.movie = movie;
+        this.person = person;
+        this.department = department;
+        this.job = job;
+    }
+
     public MovieCrewId getId() {
         return id;
     }

@@ -258,4 +258,24 @@ public class Movie {
     public void setCrew(Set<MovieCrew> crew) {
         this.crew = crew;
     }
+
+    public void addCast(MovieCast movieCast) {
+        cast.add(movieCast);
+        movieCast.setMovie(this);
+    }
+
+    public void removeCast(MovieCast movieCast) {
+        cast.remove(movieCast);
+        movieCast.setMovie(null);
+    }
+
+    public void addCrew(MovieCrew movieCrew) {
+        crew.add(movieCrew);
+        movieCrew.setMovie(this);
+    }
+
+    public void removeCrew(MovieCrew movieCrew) {
+        crew.remove(movieCrew);
+        movieCrew.setMovie(null);
+    }
 }
