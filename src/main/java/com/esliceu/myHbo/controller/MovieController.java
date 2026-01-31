@@ -99,6 +99,17 @@ public class MovieController {
             Model model) {
 
         try {
+
+            if (popularity != null && popularity.compareTo(new BigDecimal("999999.999999")) > 0) {
+                model.addAttribute("error", "La popularidad no puede superar los 999999.999999");
+                return "movieCreate";
+            }
+
+            if (voteAverage != null && voteAverage.compareTo(new BigDecimal("10")) > 0) {
+                model.addAttribute("error", "Debe der entre 0 i 10");
+                return "movieCreate";
+            }
+
             Movie movie = new Movie();
             movie.setTitle(title);
             movie.setBudget(budget);

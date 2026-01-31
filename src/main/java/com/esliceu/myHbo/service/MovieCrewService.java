@@ -15,35 +15,35 @@ import java.util.Set;
 public class MovieCrewService {
 
     @Autowired
-    private MovieRepo movieRepository;
+    private MovieRepo movieRepo;
 
     @Autowired
-    private PersonRepo personRepository;
+    private PersonRepo personRepo;
 
     @Autowired
-    private DepartmentRepo departmentRepository;
+    private DepartmentRepo departmentRepo;
 
     @Autowired
-    private MovieCrewRepo movieCrewRepository;
+    private MovieCrewRepo movieCrewRepo;
 
     @Transactional
     public void addCrewMember(Integer movieId, Integer personId, Integer departmentId, String job) {
 
-        Movie movie = movieRepository.findById(movieId)
+        Movie movie = movieRepo.findById(movieId)
                 .orElseThrow(() -> new RuntimeException("Movie not found"));
-        Person person = personRepository.findById(personId)
+        Person person = personRepo.findById(personId)
                 .orElseThrow(() -> new RuntimeException("Person not found"));
-        Department department = departmentRepository.findById(departmentId)
+        Department department = departmentRepo.findById(departmentId)
                 .orElseThrow(() -> new RuntimeException("Department not found"));
 
         MovieCrew movieCrew = new MovieCrew(movie, person, department, job);
         movie.addCrew(movieCrew);
-        movieRepository.save(movie);
+        movieRepo.save(movie);
     }
 
     @Transactional
     public void deleteCrewMember(Integer movieId, Integer personId) {
         MovieCrewId id = new MovieCrewId(movieId, personId);
-        movieCrewRepository.deleteById(id);
+        movieCrewRepo.deleteById(id);
     }
 }

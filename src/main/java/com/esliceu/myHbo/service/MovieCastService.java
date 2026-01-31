@@ -15,36 +15,36 @@ import java.util.Set;
 public class MovieCastService {
 
     @Autowired
-    private MovieRepo movieRepository;
+    private MovieRepo movieRepo;
 
     @Autowired
-    private PersonRepo personRepository;
+    private PersonRepo personRepo;
 
     @Autowired
-    private GenderRepo genderRepository;
+    private GenderRepo genderRepo;
 
     @Autowired
-    private MovieCastRepo movieCastRepository;
+    private MovieCastRepo movieCastRepo;
 
     @Transactional
     public void addCastMember(Integer movieId, Integer personId, Integer genderId,
                               String characterName, Integer castOrder) {
 
-        Movie movie = movieRepository.findById(movieId)
+        Movie movie = movieRepo.findById(movieId)
                 .orElseThrow(() -> new RuntimeException("Movie not found"));
-        Person person = personRepository.findById(personId)
+        Person person = personRepo.findById(personId)
                 .orElseThrow(() -> new RuntimeException("Person not found"));
-        Gender gender = genderRepository.findById(genderId)
+        Gender gender = genderRepo.findById(genderId)
                 .orElseThrow(() -> new RuntimeException("Gender not found"));
 
         MovieCast movieCast = new MovieCast(movie, person, gender, characterName, castOrder);
         movie.addCast(movieCast);
-        movieRepository.save(movie);
+        movieRepo.save(movie);
     }
 
     @Transactional
     public void deleteCastMember(Integer movieId, Integer personId) {
         MovieCastId id = new MovieCastId(movieId, personId);
-        movieCastRepository.deleteById(id);
+        movieCastRepo.deleteById(id);
     }
 }

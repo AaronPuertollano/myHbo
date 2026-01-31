@@ -37,6 +37,7 @@ public class MovieCrew {
         this.person = person;
         this.department = department;
         this.job = job;
+        this.id = new MovieCrewId(movie.getId(), person.getId());
     }
 
     public MovieCrewId getId() {
