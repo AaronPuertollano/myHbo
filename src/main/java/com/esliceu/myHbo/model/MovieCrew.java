@@ -29,7 +29,7 @@ public class MovieCrew {
     private String job;
 
     protected MovieCrew() {
-        // required by JPA
+
     }
 
     public MovieCrew(Movie movie, Person person, Department department, String job) {

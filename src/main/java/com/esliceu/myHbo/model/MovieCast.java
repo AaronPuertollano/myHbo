@@ -32,10 +32,9 @@ public class MovieCast {
     private Integer castOrder;
 
     protected MovieCast() {
-        // required by JPA
+
     }
 
-    // your existing constructor
     public MovieCast(Movie movie, Person person, Gender gender,
                      String characterName, Integer castOrder) {
         this.movie = movie;
