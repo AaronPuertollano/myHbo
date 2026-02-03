@@ -71,11 +71,11 @@
 </script>
 <a href="/crud">Back</a>
 
-<div th:if="${success}" style="color: green; padding: 10px; border: 1px solid green;">
+<div th:if="${success}" class="success">
     <span th:text="${success}"></span>
 </div>
 
-<div th:if="${error}" style="color: red; padding: 10px; border: 1px solid red;">
+<div th:if="${error}" class="error">
     <span th:text="${error}"></span>
 </div>
 

@@ -39,9 +39,15 @@ public class CountryController {
     }
 
     @PostMapping("/country/delete")
-    public String deleteCountry(@RequestParam Integer id) {
-        countryService.delete(id);
-        return "redirect:/country";
+    public String deleteCountry(@RequestParam Integer id, Model model) {
+        try {
+            countryService.delete(id);
+            model.addAttribute("success", "País eliminado correctamente");
+        } catch (Exception e) {
+            model.addAttribute("error", "No se puede eliminar este país porque está siendo utilizado en otras películas");
+        }
+        model.addAttribute("country", countryService.findAll());
+        return "country";
     }
 
     @PostMapping("/country/update")

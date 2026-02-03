@@ -26,6 +26,18 @@ public class MovieLanguage {
     @JoinColumn(name = "language_role_id", nullable = false)
     private LanguageRole languageRole;
 
+    // Constructor vacío para JPA
+    protected MovieLanguage() {
+    }
+
+    // ✅ AÑADE ESTE CONSTRUCTOR
+    public MovieLanguage(Movie movie, Language language, LanguageRole languageRole) {
+        this.movie = movie;
+        this.language = language;
+        this.languageRole = languageRole;
+        this.id = new MovieLanguageId(movie.getId(), language.getId()); // ← IMPORTANTE
+    }
+
     public MovieLanguageId getId() {
         return id;
     }

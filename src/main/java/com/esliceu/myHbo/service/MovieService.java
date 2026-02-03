@@ -41,7 +41,21 @@ public class MovieService {
         return movieRepo.save(movie);
     }
 
+    @Transactional
     public void delete(Integer id) {
+
+        if (!movieRepo.existsById(id)) {
+            throw new RuntimeException("Movie not found");
+        }
+        
+        movieRepo.deleteCastByMovieId(id);
+        movieRepo.deleteCrewByMovieId(id);
+        movieRepo.deleteLanguagesByMovieId(id);
+        movieRepo.deleteGenresByMovieId(id);
+        movieRepo.deleteCountriesByMovieId(id);
+        movieRepo.deleteCompaniesByMovieId(id);
+        movieRepo.deleteKeywordsByMovieId(id);
+
         movieRepo.deleteById(id);
     }
 

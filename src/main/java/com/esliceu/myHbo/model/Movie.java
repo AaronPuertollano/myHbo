@@ -91,6 +91,17 @@ public class Movie {
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MovieLanguage> movieLanguages = new HashSet<>();
 
+    // ✅ AÑADE ESTOS MÉTODOS HELPER
+    public void addLanguage(MovieLanguage movieLanguage) {
+        movieLanguages.add(movieLanguage);
+        movieLanguage.setMovie(this);
+    }
+
+    public void removeLanguage(MovieLanguage movieLanguage) {
+        movieLanguages.remove(movieLanguage);
+        movieLanguage.setMovie(null);
+    }
+
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MovieCast> cast = new HashSet<>();
 

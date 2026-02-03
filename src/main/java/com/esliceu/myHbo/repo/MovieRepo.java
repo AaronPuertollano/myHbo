@@ -3,6 +3,7 @@ package com.esliceu.myHbo.repo;
 import com.esliceu.myHbo.model.Genre;
 import com.esliceu.myHbo.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -46,4 +47,33 @@ public interface MovieRepo extends JpaRepository<Movie, Integer> {
             "LEFT JOIN FETCH m.movieLanguages " +
             "WHERE m.id = :id")
     Optional<Movie> findByIdWithAllRelations(@Param("id") Integer id);
+
+
+    @Modifying
+    @Query(value = "DELETE FROM movie_cast WHERE movie_id = :movieId", nativeQuery = true)
+    void deleteCastByMovieId(@Param("movieId") Integer movieId);
+
+    @Modifying
+    @Query(value = "DELETE FROM movie_crew WHERE movie_id = :movieId", nativeQuery = true)
+    void deleteCrewByMovieId(@Param("movieId") Integer movieId);
+
+    @Modifying
+    @Query(value = "DELETE FROM movie_languages WHERE movie_id = :movieId", nativeQuery = true)
+    void deleteLanguagesByMovieId(@Param("movieId") Integer movieId);
+
+    @Modifying
+    @Query(value = "DELETE FROM movie_genres WHERE movie_id = :movieId", nativeQuery = true)  // ← CAMBIADO
+    void deleteGenresByMovieId(@Param("movieId") Integer movieId);
+
+    @Modifying
+    @Query(value = "DELETE FROM production_country WHERE movie_id = :movieId", nativeQuery = true)
+    void deleteCountriesByMovieId(@Param("movieId") Integer movieId);
+
+    @Modifying
+    @Query(value = "DELETE FROM movie_company WHERE movie_id = :movieId", nativeQuery = true)
+    void deleteCompaniesByMovieId(@Param("movieId") Integer movieId);
+
+    @Modifying
+    @Query(value = "DELETE FROM movie_keywords WHERE movie_id = :movieId", nativeQuery = true)
+    void deleteKeywordsByMovieId(@Param("movieId") Integer movieId);
 }
