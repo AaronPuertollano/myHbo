@@ -76,4 +76,5 @@ public interface MovieRepo extends JpaRepository<Movie, Integer> {
     @Modifying
     @Query(value = "DELETE FROM movie_keywords WHERE movie_id = :movieId", nativeQuery = true)
     void deleteKeywordsByMovieId(@Param("movieId") Integer movieId);
+
 }
