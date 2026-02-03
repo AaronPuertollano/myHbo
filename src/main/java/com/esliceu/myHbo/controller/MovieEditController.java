@@ -9,11 +9,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class MovieEditController {
@@ -219,6 +223,22 @@ public class MovieEditController {
                                    @RequestParam Integer personId) {
         movieCrewService.deleteCrewMember(movieId, personId);
         return "redirect:/movies/edit/crew?id=" + movieId;
+    }
+
+    @GetMapping("/api/persons/search")
+    @ResponseBody
+    public List<Map<String, String>> searchPersons(@RequestParam String term) {
+        List<Person> persons = personService.searchByName(term);
+
+        return persons.stream()
+                .map(p -> {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("id", String.valueOf(p.getId()));
+                    map.put("text", p.getPersonName());
+                    return map;
+                })
+                .limit(20)
+                .collect(Collectors.toList());
     }
 
 

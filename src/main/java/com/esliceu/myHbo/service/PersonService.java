@@ -48,4 +48,8 @@ public class PersonService {
         person.setPersonName(personName);
         return personRepo.save(person);
     }
+
+    public List<Person> searchByName(String term) {
+        return personRepo.findTop20ByPersonNameContainingIgnoreCase(term);
+    }
 }

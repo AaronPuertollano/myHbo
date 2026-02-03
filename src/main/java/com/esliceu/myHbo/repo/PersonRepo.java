@@ -13,4 +13,6 @@ public interface PersonRepo extends JpaRepository<Person, Integer> {
     Integer getNextId();
 
     List<Person> findByPersonNameContainingIgnoreCase(String name);
+
+    List<Person> findTop20ByPersonNameContainingIgnoreCase(String name);
 }

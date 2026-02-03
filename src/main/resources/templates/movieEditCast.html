@@ -77,11 +77,7 @@
             <div class="form-group">
                 <label for="personSelect">Persona</label>
                 <select id="personSelect" name="personId" required>
-                    <option value="">Selecciona una persona...</option>
-                    <option th:each="person : ${allPersons}"
-                            th:value="${person.id}"
-                            th:text="${person.personName}">
-                    </option>
+                    <option value="">Escribe para buscar...</option>
                 </select>
             </div>
 
@@ -151,12 +147,30 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
     $(document).ready(function() {
         $('#personSelect').select2({
             placeholder: 'Buscar persona...',
             allowClear: true,
-            width: '100%'
+            width: '100%',
+            minimumInputLength: 2, // Busca después de escribir 2 caracteres
+            ajax: {
+                url: '/api/persons/search',
+                dataType: 'json',
+                delay: 250, // Espera 250ms después de escribir
+                data: function (params) {
+                    return {
+                        term: params.term // Lo que el usuario escribe
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data // Ya viene en formato {id, text}
+                    };
+                },
+                cache: true
+            }
         });
     });
 </script>

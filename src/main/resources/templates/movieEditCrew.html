@@ -77,11 +77,7 @@
             <div class="form-group">
                 <label for="personSelect">Persona</label>
                 <select id="personSelect" name="personId" required>
-                    <option value="">Selecciona una persona...</option>
-                    <option th:each="person : ${allPersons}"
-                            th:value="${person.id}"
-                            th:text="${person.personName}">
-                    </option>
+                    <option value="">Escribe para buscar...</option>
                 </select>
             </div>
 
@@ -148,7 +144,24 @@
         $('#personSelect').select2({
             placeholder: 'Buscar persona...',
             allowClear: true,
-            width: '100%'
+            width: '100%',
+            minimumInputLength: 2,
+            ajax: {
+                url: '/api/persons/search',
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        term: params.term
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
         });
     });
 </script>
