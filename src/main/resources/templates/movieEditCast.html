@@ -157,15 +157,15 @@
             ajax: {
                 url: '/api/persons/search',
                 dataType: 'json',
-                delay: 250, // Espera 250ms después de escribir
+                delay: 250,
                 data: function (params) {
                     return {
-                        term: params.term // Lo que el usuario escribe
+                        term: params.term
                     };
                 },
                 processResults: function (data) {
                     return {
-                        results: data // Ya viene en formato {id, text}
+                        results: data
                     };
                 },
                 cache: true

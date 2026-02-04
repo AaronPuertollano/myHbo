@@ -27,13 +27,13 @@ public class MyHboApplication implements WebMvcConfigurer {
 public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(sessionInterceptor)
             .addPathPatterns("/**")  // Proteger TODAS las rutas
-            .excludePathPatterns(
-                "/login",           // Login
-                "/register",        // Registro
-                "/movies/search",   // Búsqueda de películas
-                "/movies/results",  // Resultados de búsqueda
-                "/movies/info",     // Información de película
-                "/api/movies/autocomplete"  // API para autocompletado
+            .excludePathPatterns( //Excepto..
+                "/login",
+                "/register",
+                "/movies/search",
+                "/movies/results",
+                "/movies/info",
+                "/api/movies/autocomplete"
             );
 
     }
